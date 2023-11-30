@@ -17,6 +17,8 @@ public interface UserDao {
 
     List<User> listUser();
 
+    User loginUser(String account);
+
     Long count();
 
 }

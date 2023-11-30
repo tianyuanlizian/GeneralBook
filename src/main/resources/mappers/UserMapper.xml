@@ -30,5 +30,8 @@
     <select id="count">
         select count(*) from user
     </select>
+    <select id="loginUser" resultMap="userMap">
+        select u_id,name,account,password,sex,email,photo,phone,state from user where account = #{account}
+    </select>
 
 </mapper>
