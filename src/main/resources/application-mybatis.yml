@@ -1,0 +1,31 @@
+# 配置数据源
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/generalbook?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    # 配置hikari连接池
+    hikari:
+      maximum-pool-size: 200
+      minimum-idle: 10
+      connection-timeout: 3000
+      idle-timeout: 600000
+      connection-test-query: select 1
+# mybatis配置
+mybatis:
+  # 实体别名
+  type-aliases-package: edu.nf.generalbook.entity
+  # mapper映射配置文件的路径
+  mapper-locations: classpath:/mappers/*.xml
+  # 输出sql语句
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 分页插件配置
+pagehelper:
+  # 设置数据库方言
+  helper-dialect: mysql
+  # 启用注解分页参数
+  support-methods-arguments: true
+  # 分页合理化
+  reasonable: true
