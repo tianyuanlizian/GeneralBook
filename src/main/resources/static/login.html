@@ -54,7 +54,7 @@
             <el-link :underline="false" href="loginMail.html" type="primary">邮箱登录</el-link>
         </el-col>
         <el-col :span="6">
-            <el-link :underline="false" href="registration.html" type="primary">注册</el-link>
+            <el-link :underline="false" href="register.html" type="primary">注册</el-link>
         </el-col>
     </el-row>
 </div>
@@ -134,11 +134,13 @@
                                 password: this.ruleForm.pass
                             },
                             success(result) {
-                                sessionStorage.setItem('id',result.userId);
-                                sessionStorage.setItem('name',result.userName);
-                                sessionStorage.setItem('mail',result.userMail);
-                                sessionStorage.setItem('state',result.userState);
-                                sessionStorage.setItem('key',result.userKey);
+                                //保存数据
+                                sessionStorage.setItem('name',result.name);
+                                sessionStorage.setItem('account',result.account);
+                                sessionStorage.setItem('sex',result.sex);
+                                sessionStorage.setItem('email',result.email);
+                                sessionStorage.setItem('photo',result.photo);
+                                sessionStorage.setItem('phone',result.phone);
                                 location.href = 'index.html';
                             },
                             error() {
