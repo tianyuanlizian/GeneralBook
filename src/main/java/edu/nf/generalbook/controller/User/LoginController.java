@@ -1,5 +1,6 @@
 package edu.nf.generalbook.controller.User;
 
+import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.User.UserService;
 import edu.nf.generalbook.service.User.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,8 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String login(String account, String password){
-        boolean login = service.login(account, password);
-        if (login){
-            return "redirect:/test.html";
-        }else {
-            return "输入错误";
-        }
+    public User login(String account, String password){
+        User user = service.login(account, password);
+        return user;
     }
 }

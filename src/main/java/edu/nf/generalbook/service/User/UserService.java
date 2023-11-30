@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserService {
     void addUser(User user);
 
-    boolean login(String account, String password);
+    User login(String account, String password);
 
     void updUser(User user);
 
