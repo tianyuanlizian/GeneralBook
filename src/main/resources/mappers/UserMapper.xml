@@ -16,7 +16,19 @@
 
 
     <insert id="addUser">
-        insert into user(u_id,name,account,password,sex,email,photo,phone,state) values (#{uId},#{name},#{account},#{password},#{sex},#{email},#{photo},#{phone},#{state})
+        insert into user(name,account,password,sex,email,photo,phone,state) values (#{name},#{account},#{password},#{sex},#{email},#{photo},#{phone},#{state})
     </insert>
+    <update id="updUser">
+        update user set name = #{name},account = #{account},password = #{password},sex = #{sex},email = #{email},photo = #{photo},phone = #{phone},state = #{state} where u_id = #{uId}
+    </update>
+    <update id="updUserState">
+        update user set state = #{state} where u_id = #{uId}
+    </update>
+    <select id="listUser" resultMap="userMap">
+        select u_id,name,account,password,sex,email,photo,phone,state from user
+    </select>
+    <select id="count">
+        select count(*) from user
+    </select>
 
 </mapper>

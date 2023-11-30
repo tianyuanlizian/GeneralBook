@@ -1,7 +1,6 @@
 package edu.nf.generalbook.dao;
 
 import edu.nf.generalbook.entity.User;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,8 +13,10 @@ public interface UserDao {
 
     void updUser(User user);
 
-    void updUserState(String state);
+    void updUserState(Integer uId, String state);
 
     List<User> listUser();
+
+    Long count();
 
 }
