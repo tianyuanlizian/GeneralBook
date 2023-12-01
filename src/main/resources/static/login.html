@@ -34,13 +34,10 @@
                     <!-- show-word-limit：展示字数统计 -->
                     <el-input maxlength="20" show-word-limit v-model="ruleForm.account"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="pass">
+                <el-form-item label="密码" prop="password">
                     <!-- v-model="ruleForm.pass"：和vue的 ruleForm.pass 值判定 -->
                     <!-- autocomplete="off" ：关闭自动填入 -->
-                    <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="checkPass">
-                    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                    <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm')" style="width: 100%;">密码登录
@@ -66,37 +63,21 @@
         data() {
             var checkName = (rule, value, callback) => {
                 if (!value) {
-                    callback(new Error('用户不能为空'));
+                    callback(new Error('账号不能为空'));
                 }
                 callback();
             };
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入密码'));
-                } else {
-                    // 如果确认密码不为空
-                    if (this.ruleForm.checkPass !== '') {
-                        // 手动触发 checkPass 字段的校验
-                        this.$refs.ruleForm.validateField('checkPass');
-                    }
-                    callback();
                 }
-            };
-            var validatePass2 = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请再次输入密码'));
-                } else if (value !== this.ruleForm.pass) {
-                    callback(new Error('两次输入密码不一致!'));
-                } else {
                     callback();
-                }
             };
             return {
                 // 表单绑定的值
                 ruleForm: {
                     account: '',
-                    pass: '',
-                    checkPass: ''
+                    password: ''
                 },
                 // 	表单验证规则
                 rules: {
@@ -107,14 +88,10 @@
                         // 触发条件 "blur"，意思是在用户离开该表单项时进行验证
                         trigger: 'blur'
                     }],
-                    pass: [{
+                    password: [{
                         validator: validatePass,
                         trigger: 'blur'
                     }],
-                    checkPass: [{
-                        validator: validatePass2,
-                        trigger: 'blur'
-                    }]
                 }
             };
         },
@@ -129,9 +106,10 @@
                         $.ajax({
                             url: "login",
                             dataType:"JSON",
+                            type:"POST",
                             data: {
                                 account: this.ruleForm.account,
-                                password: this.ruleForm.pass
+                                password: this.ruleForm.password
                             },
                             success(result) {
                                 //保存数据

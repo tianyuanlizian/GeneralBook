@@ -5,6 +5,7 @@ import edu.nf.generalbook.service.User.UserService;
 import edu.nf.generalbook.service.User.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,9 +21,23 @@ public class LoginController {
         this.service = service;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public User login(String account, String password){
         User user = service.login(account, password);
         return user;
+    }
+
+    @PostMapping("/addUser")
+    public void addUser(String name,String account, String password, String sex, String email, String photo, String phone){
+        User user = new User();
+        user.setName(name);
+        user.setAccount(account);
+        user.setPassword(password);
+        user.setSex(sex);
+        user.setEmail(email);
+        user.setPhoto(photo);
+        user.setPhone(phone);
+        user.setState("1");
+        service.addUser(user);
     }
 }
