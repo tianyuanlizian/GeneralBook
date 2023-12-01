@@ -4,6 +4,7 @@ import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.User.UserService;
 import edu.nf.generalbook.service.User.impl.UserServiceImpl;
 import edu.nf.generalbook.vo.PageVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import java.util.List;
  * @Date：2023/11/30 15:34
  */
 @RestController
+@Slf4j
 public class LoginController {
     private UserService service;
 
