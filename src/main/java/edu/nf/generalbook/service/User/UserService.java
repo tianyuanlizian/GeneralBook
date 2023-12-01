@@ -1,6 +1,8 @@
 package edu.nf.generalbook.service.User;
 
 import edu.nf.generalbook.entity.User;
+import edu.nf.generalbook.vo.PageVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,6 +19,6 @@ public interface UserService {
 
     void updUserState(Integer uId, String state);
 
-    List<User> listUser();
+    PageVO<List<User>> listUser(Integer pageNum, Integer pageSize);
 
 }

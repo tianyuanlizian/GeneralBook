@@ -1,6 +1,7 @@
 package edu.nf.generalbook.dao;
 
 import edu.nf.generalbook.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface UserDao {
 
     void updUserState(Integer uId, String state);
 
-    List<User> listUser();
+    List<User> listUser(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
 
     User loginUser(String account);
 

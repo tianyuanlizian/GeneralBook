@@ -3,10 +3,13 @@ package edu.nf.generalbook.controller.User;
 import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.User.UserService;
 import edu.nf.generalbook.service.User.impl.UserServiceImpl;
+import edu.nf.generalbook.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @Author：tianyuan
@@ -39,5 +42,11 @@ public class LoginController {
         user.setPhone(phone);
         user.setState("1");
         service.addUser(user);
+    }
+
+    @GetMapping("/listUser")
+    public PageVO<List<User>> listUser(Integer page, Integer limit){
+        PageVO<List<User>> vo = service.listUser(page, limit);
+        return vo;
     }
 }

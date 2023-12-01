@@ -3,6 +3,7 @@ package edu.nf.generalbook.service.User.impl;
 import edu.nf.generalbook.dao.UserDao;
 import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.User.UserService;
+import edu.nf.generalbook.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +45,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> listUser() {
-        return dao.listUser();
+    public PageVO<List<User>> listUser(Integer pageNum, Integer pageSize) {
+        List<User> list = dao.listUser(pageNum, pageSize);
+        Long count = dao.count();
+        PageVO vo = new PageVO();
+        vo.setCode(0);
+        vo.setData(list);
+        vo.setCount(count);
+        return vo;
     }
 }

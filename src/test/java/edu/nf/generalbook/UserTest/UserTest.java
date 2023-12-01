@@ -55,7 +55,7 @@ public class UserTest {
 
     @Test
     void listUser(){
-        List<User> list = dao.listUser();
+        List<User> list = dao.listUser(1,10);
         list.forEach(user -> {
             log.info(user.toString());
         });
