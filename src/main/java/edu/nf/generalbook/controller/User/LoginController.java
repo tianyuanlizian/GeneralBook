@@ -51,4 +51,18 @@ public class LoginController {
         PageVO<List<User>> vo = service.listUser(page, limit);
         return vo;
     }
+
+    @PostMapping("/updUser")
+    public void updUser(Integer uid ,String name, String password, String sex, String email, String photo, String phone){
+        User user = new User();
+        user.setUId(uid);
+        user.setName(name);
+        user.setPassword(password);
+        user.setSex(sex);
+        user.setEmail(email);
+        user.setPhoto(photo);
+        user.setPhone(phone);
+        service.updUser(user);
+    }
+
 }

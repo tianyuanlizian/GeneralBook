@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         List<User> list = dao.listUser(pageNum, pageSize);
         Long count = dao.count();
         PageVO vo = new PageVO();
-        vo.setCode(0);
+        vo.setCode(200);
         vo.setData(list);
         vo.setCount(count);
         return vo;
