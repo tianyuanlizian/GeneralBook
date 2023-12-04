@@ -65,4 +65,8 @@ public class LoginController {
         service.updUser(user);
     }
 
+    @GetMapping("/updState")
+    public void updState(Integer uid,String state){
+        service.updUserState(uid,state);
+    }
 }

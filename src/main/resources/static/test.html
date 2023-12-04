@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Layui Table Demo</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.5.7/css/layui.css">
+</head>
+
+<body>
+
+<table class="layui-table" id="demo" lay-filter="test"></table>
+
+<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/layui/2.5.7/layui.js"></script>
+
+<script type="text/html" id="statusTpl">
+    {{ d.status === 1 ? '上架' : '下架' }}
+</script>
+
+<script type="text/html" id="operationTpl">
+    {{# if(d.status === 1){ }}
+    <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="down">下架</button>
+    {{# } else { }}
+    <button class="layui-btn layui-btn-xs" lay-event="up">上架</button>
+    {{# } }}
+</script>
+
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        // 模拟数据
+        var data = [{
+            id: 1,
+            name: '商品1',
+            status: 1
+        }, {
+            id: 2,
+            name: '商品2',
+            status: 0
+        }];
+
+        // 表格配置
+        table.render({
+            elem: '#demo',
+            data: data,
+            cols: [
+                [
+                    { field: 'id', title: 'ID' },
+                    { field: 'name', title: '商品名称' },
+                    { field: 'status', title: '状态', templet: '#statusTpl' },
+                    { title: '操作', toolbar: '#operationTpl' } // 操作列，可放置其他按钮
+                ]
+            ]
+        });
+
+        // 监听工具条按钮点击事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data; // 获取当前行的数据
+            if (obj.event === 'up') {
+                // 上架操作
+                console.log('上架操作', data);
+            } else if (obj.event === 'down') {
+                // 下架操作
+                console.log('下架操作', data);
+            }
+        });
+    });
+</script>
+</body>
+
+</html>
