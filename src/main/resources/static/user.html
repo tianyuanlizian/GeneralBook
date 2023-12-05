@@ -78,9 +78,9 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         {{# if(d.state === '1'){ }}
-        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">下架</button>
+        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>
         {{# } else { }}
-        <button class="layui-btn layui-btn-xs" lay-event="state">上架</button>
+        <button class="layui-btn layui-btn-xs" lay-event="state">启用</button>
         {{# } }}
         <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>
     </div>
@@ -104,7 +104,7 @@
             ,url:'/listUser'
             ,page: true 	// 开启分页
             ,limit:5
-            ,limits:[5,10]
+            ,limits:[5,10,20]
             ,cols:[[
                 // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
                 {field: 'uid', title: '用户ID',  fixed: 'left'}
@@ -123,7 +123,7 @@
                             return '封禁';
                         }
                         }}
-                ,{title: '操作', fixed: 'left',toolbar:'#toolbarDemo',templet: '#statusTpl' }
+                ,{title: '操作', fixed: 'left',toolbar:'#toolbarDemo'}
             ]]
             // 把后台数据转换为layui中table组件所要求的数据格式
             ,parseData:function( res ) {

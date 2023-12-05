@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String account, String password) {
         User user = dao.loginUser(account);
-        if (password.equals(user.getPassword())){
+        if (password.equals(user.getPassword()) && "1".equals(user.getState())){
             return user;
         }
         throw new RuntimeException("用户"+account+"错误");
