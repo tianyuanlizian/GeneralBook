@@ -15,32 +15,32 @@ import org.springframework.data.elasticsearch.annotations.Mapping;
 @Mapping
 @Data
 public class UserDoc {
-        @Id
         //编号
+        @Id
         private Integer uId;
-        @Field(type = FieldType.Text, analyzer = "ik_max_word")
         //用户名称
+        @Field(type = FieldType.Text, analyzer = "ik_max_word")
         private String name;
-        @Field(type = FieldType.Keyword)
         //用户账号
+        @Field(type = FieldType.Keyword)
         private String account;
-        @Field(type = FieldType.Keyword)
         //密码
+        @Field(type = FieldType.Keyword)
         private String password;
-        @Field(type = FieldType.Keyword)
         //性别
+        @Field(type = FieldType.Keyword)
         private String sex;
-        @Field(type = FieldType.Keyword)
         //邮箱
+        @Field(type = FieldType.Keyword)
         private String email;
-        @Field(type = FieldType.Keyword)
         //头像
+        @Field(type = FieldType.Keyword)
         private String photo;
-        @Field(type = FieldType.Keyword)
         //手机号码
-        private String phone;
         @Field(type = FieldType.Keyword)
+        private String phone;
         //状态
+        @Field(type = FieldType.Keyword)
         private String state;
 
 }
