@@ -150,18 +150,51 @@
 
         // 绑定查询按钮
         $('#selectBtn').on('click', function () {
-            // 向服务器发起异步请求，实现数据的删除
-            $.ajax({
-                url:'/selectUser',
-                method:'get',
-                data:{
-                    'param': $('#name').val()
-                },
-                success:function(data){
-                    // 重新加载表格数据
-                    table.reload('table_data',{page:{curr:1}});
+            if ($('#name').val() != null && $('#name').val() != ""){
+            // 重新渲染动态表格相关的参数
+            table.render({
+                elem: '#table_data'
+                ,url: "/selectUser"
+                ,where: {
+                        // 在这里设置额外的参数
+                        // 例如，传递一个名为 'param' 的参数，值为输入框中的值
+                        param: $('#name').val()
+                    }
+                ,page: true 	// 开启分页
+                ,limit:5
+                ,limits:[5,10,20]
+                ,cols:[[
+                    // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
+                    {field: 'uid', title: '用户ID',  fixed: 'left'}
+                    ,{field: 'name', title: '用户名', fixed: 'left'}
+                    ,{field: 'account', title: '账号',  fixed: 'left'}
+                    ,{field: 'password', title: '密码',  fixed: 'left'}
+                    ,{field: 'sex', title: '性别', fixed: 'left'}
+                    ,{field: 'email', title: '邮箱',  fixed: 'left'}
+                    ,{field: 'photo', title: '头像', fixed: 'left'}
+                    ,{field: 'phone', title: '手机号',  fixed: 'left'}
+                    ,{field: 'state', title: '状态',  fixed: 'left',templet:function(row){
+                            // console.log(row)
+                            if(row.state==1) {
+                                return '正常';
+                            } else {
+                                return '封禁';
+                            }
+                        }}
+                    ,{title: '操作', fixed: 'left',toolbar:'#toolbarDemo'}
+                ]]
+                // 把后台数据转换为layui中table组件所要求的数据格式
+                ,parseData:function( res ) {
+                    return {
+                        "code":res.code==200?0:'-1',
+                        "data":res.data,
+                        "count":res.count
+                    };
                 }
-            }) ;
+            });
+            }else {
+                location.href = 'user.html';
+            }
         });
 
         // 监听表格操作按钮

@@ -49,7 +49,7 @@ public class EsTest {
     @Test
     void boolSearchTest(){
         String[] fields = {"name", "account", "email", "phone"};
-        List<UserDoc> list = service.boolSearch(UserDoc.class, "1", fields);
+        List<UserDoc> list = service.boolSearch(UserDoc.class, "", fields);
         list.forEach(userDoc ->{
             log.info(userDoc.getName());
             log.info(userDoc.getAccount());

@@ -83,7 +83,7 @@ public class LoginController {
 
 
     @GetMapping("/selectUser")
-    public PageVO<List<UserDoc>> selectUser(String param){
+    public PageVO<List<UserDoc>> selectUser(String param, Integer page, Integer limit){
         String[] fields = {"name", "account", "email", "phone"};
         List<UserDoc> list = esService.boolSearch(UserDoc.class, param, fields);
         PageVO vo = new PageVO();
