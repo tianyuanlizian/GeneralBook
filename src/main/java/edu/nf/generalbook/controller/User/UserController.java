@@ -1,10 +1,8 @@
 package edu.nf.generalbook.controller.User;
 
-import co.elastic.clients.elasticsearch.nodes.Http;
 import edu.nf.generalbook.doc.UserDoc;
 import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.User.UserService;
-import edu.nf.generalbook.service.User.impl.UserServiceImpl;
 import edu.nf.generalbook.service.es.EsService;
 import edu.nf.generalbook.vo.PageVO;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.http.HttpRequest;
 import java.util.List;
 
 /**
@@ -22,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @Slf4j
-public class LoginController {
+public class UserController {
     private UserService service;
 
     private EsService esService;
