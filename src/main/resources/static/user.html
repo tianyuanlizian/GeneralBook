@@ -9,6 +9,19 @@
     <script src="js/layui.js"></script>
 </head>
 <body>
+<!-- 搜索表单开始 -->
+<form class="layui-form">
+    <div class="layui-inline">
+        <label class="layui-form-label">查询条件</label>
+        <div class="layui-input-block">
+            <input type="text" id="name" name="name" style="width: 400px;"  placeholder="请输入商品名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <input type="button" id="selectBtn" class="layui-btn" data-type="reload" value="查询">
+    </div>
+</form>
+
 <!--修改表单开始-->
 <div id="updateContainer" style="display: none">
     <form class="layui-form" id="updateForm" lay-filter="example" style="margin: 1rem">
@@ -133,6 +146,22 @@
                     "count":res.count
                 };
             }
+        });
+
+        // 绑定查询按钮
+        $('#selectBtn').on('click', function () {
+            // 向服务器发起异步请求，实现数据的删除
+            $.ajax({
+                url:'/selectUser',
+                method:'get',
+                data:{
+                    'param': $('#name').val()
+                },
+                success:function(data){
+                    // 重新加载表格数据
+                    table.reload('table_data',{page:{curr:1}});
+                }
+            }) ;
         });
 
         // 监听表格操作按钮

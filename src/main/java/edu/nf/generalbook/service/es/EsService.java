@@ -36,7 +36,7 @@ public interface EsService {
      * 创建文档
      * @param user
      */
-    void createDoc(User user);
+    <T> T createDoc(T user);
 
     /**
      * 根据id判断是否存在
@@ -86,7 +86,7 @@ public interface EsService {
      * @return
      * @param <T>
      */
-    <T> List<T> boolSearch(Class<T> docType, String searchParam, String... fields);
+    <T> List<T> boolSearch(Class<T> docType, String searchParam, String[] fields);
 
     /**
      * bool查询结合嵌套查询

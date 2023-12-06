@@ -22,4 +22,6 @@ public interface UserDao {
 
     Long count();
 
+    List<User> userList();
+
 }

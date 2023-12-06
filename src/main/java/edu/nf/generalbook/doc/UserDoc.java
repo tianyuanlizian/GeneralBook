@@ -1,6 +1,8 @@
 package edu.nf.generalbook.doc;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -14,6 +16,8 @@ import org.springframework.data.elasticsearch.annotations.Mapping;
 @Document(indexName = "user", createIndex = false)
 @Mapping
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDoc {
         //编号
         @Id

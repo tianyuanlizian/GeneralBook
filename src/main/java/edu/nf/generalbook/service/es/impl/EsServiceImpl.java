@@ -64,8 +64,8 @@ public class EsServiceImpl implements EsService {
      * 创建文档
      * @param user
      */
-    public void createDoc(User user) {
-        operations.save(user);
+    public <T> T createDoc(T user) {
+        return operations.save(user);
     }
 
     public boolean docExist(String id, String index) {
@@ -141,7 +141,7 @@ public class EsServiceImpl implements EsService {
      * @param <T>
      */
     public <T> List<T> boolSearch(Class<T> docType,
-                                  String searchParam, String... fields) {
+                                  String searchParam,String[] fields) {
         NativeQueryBuilder builder = new NativeQueryBuilder();
         builder.withQuery(q -> {
             //构建布隆查询

@@ -1,8 +1,11 @@
 package edu.nf.generalbook.controller.User;
 
+import co.elastic.clients.elasticsearch.nodes.Http;
+import edu.nf.generalbook.doc.UserDoc;
 import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.User.UserService;
 import edu.nf.generalbook.service.User.impl.UserServiceImpl;
+import edu.nf.generalbook.service.es.EsService;
 import edu.nf.generalbook.vo.PageVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.http.HttpRequest;
 import java.util.List;
 
 /**
@@ -20,6 +24,13 @@ import java.util.List;
 @Slf4j
 public class LoginController {
     private UserService service;
+
+    private EsService esService;
+
+    @Autowired
+    public void setEsService(EsService esService) {
+        this.esService = esService;
+    }
 
     @Autowired
     public void setService(UserService service) {
@@ -68,5 +79,17 @@ public class LoginController {
     @GetMapping("/updState")
     public void updState(Integer uid,String state){
         service.updUserState(uid,state);
+    }
+
+
+    @GetMapping("/selectUser")
+    public PageVO<List<UserDoc>> selectUser(String param){
+        String[] fields = {"name", "account", "email", "phone"};
+        List<UserDoc> list = esService.boolSearch(UserDoc.class, param, fields);
+        PageVO vo = new PageVO();
+        vo.setCode(200);
+        vo.setData(list);
+        vo.setCount(list.stream().count());
+        return vo;
     }
 }
