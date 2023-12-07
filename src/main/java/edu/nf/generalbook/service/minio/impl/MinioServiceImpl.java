@@ -3,6 +3,8 @@ package edu.nf.generalbook.service.minio.impl;
 import edu.nf.generalbook.dao.UserDao;
 import edu.nf.generalbook.entity.User;
 import io.minio.*;
+import io.minio.errors.MinioException;
+import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,20 +30,19 @@ import java.util.UUID;
 @Service
 public class MinioServiceImpl {
 
-    private static MinioClient minioClient;
+    @Autowired
+    private  MinioClient minioClient;
 
     private final UserDao dao;
-    @Autowired
-    public static void setMinioClient(MinioClient minioClient) {
-        MinioServiceImpl.minioClient = minioClient;
-    }
+
+
 
     private String bucketName = "user";
     /**
      * 创建桶
      * @param bucketName
      */
-    public static void createBucket(String bucketName) throws Exception{
+    public  void createBucket(String bucketName) throws Exception{
         //先判断同是否存在，不存在则创建
         if(!minioClient.bucketExists(BucketExistsArgs.builder()
                 .bucket(bucketName).build())) {
@@ -75,12 +76,7 @@ public class MinioServiceImpl {
         dao.addUser(user);
 
         // 返回图片的URL
-        return minioClient.getPresignedObjectUrl(
-                GetPresignedObjectUrlArgs.builder()
-                        .bucket(bucketName)
-                        .object(fileName)
-                        .build()
-        );
+        return "true";
     }
 
     /**
@@ -118,11 +114,17 @@ public class MinioServiceImpl {
 
 
     private String getPresignedUrl(String bucketName, String objectName) throws Exception {
-        return minioClient.getPresignedObjectUrl(
-                GetPresignedObjectUrlArgs.builder()
-                        .bucket(bucketName)
-                        .object(objectName)
-                        .build()
-        );
+        try {
+            String url = minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Method.GET)
+                            .bucket(bucketName)
+                            .object(objectName)
+                            .build()
+            );
+            return url;
+        } catch (MinioException e) {
+            throw new Exception("Error generating presigned URL", e);
+        }
     }
 }

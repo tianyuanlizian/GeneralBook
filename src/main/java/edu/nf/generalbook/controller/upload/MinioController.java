@@ -28,7 +28,14 @@ public class MinioController {
                                                  @RequestParam String phone,
                                                  @RequestParam MultipartFile image) {
         try {
-            User user = new User(name, account, password, sex, email, phone,image);
+            User user = new User();
+            user.setName(name);
+            user.setAccount(account);
+            user.setPassword(password);
+            user.setSex(sex);
+            user.setEmail(email);
+            user.setPhone(phone);
+            user.setImage(image);
             String imageUrl = service.uploadImage(user);
             return ResponseEntity.ok(imageUrl);
         } catch (Exception e) {

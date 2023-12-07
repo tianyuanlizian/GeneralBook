@@ -33,7 +33,4 @@ public class User {
     private String state;
     //头像
     private MultipartFile image;
-
-    public User(String name, String account, String password, String sex, String email, String phone, MultipartFile image) {
-    }
 }
