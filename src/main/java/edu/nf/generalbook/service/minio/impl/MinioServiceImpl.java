@@ -2,6 +2,7 @@ package edu.nf.generalbook.service.minio.impl;
 
 import edu.nf.generalbook.dao.UserDao;
 import edu.nf.generalbook.entity.User;
+import edu.nf.generalbook.service.minio.MinioService;
 import io.minio.*;
 import io.minio.errors.MinioException;
 import io.minio.http.Method;
@@ -28,14 +29,12 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class MinioServiceImpl {
+public class MinioServiceImpl implements MinioService {
 
     @Autowired
     private  MinioClient minioClient;
 
     private final UserDao dao;
-
-
 
     private String bucketName = "user";
     /**
@@ -55,7 +54,8 @@ public class MinioServiceImpl {
      * path路径参数就是桶下面的子目录
      * @return
      */
-    public String uploadImage(User user) throws Exception {
+    public void uploadImage(User user) throws Exception {
+        createBucket(bucketName);
         // 生成唯一的文件名，避免重复
         String fileName = UUID.randomUUID().toString() + "_" + user.getImage().getOriginalFilename();
 
@@ -69,14 +69,12 @@ public class MinioServiceImpl {
                         .build()
         );
 
-        // 在这里你可以将图片信息保存到数据库，例如使用Spring Data JPA
+        // 在这里你可以将图片信息保存到数据库
+        //获取链接
         String url = getPresignedUrl(bucketName, fileName);
         user.setPhoto(url);
         user.setState("1");
         dao.addUser(user);
-
-        // 返回图片的URL
-        return "true";
     }
 
     /**
@@ -112,7 +110,13 @@ public class MinioServiceImpl {
         }
     }
 
-
+    /**
+     * 返回下载链接
+     * @param bucketName
+     * @param objectName
+     * @return
+     * @throws Exception
+     */
     private String getPresignedUrl(String bucketName, String objectName) throws Exception {
         try {
             String url = minioClient.getPresignedObjectUrl(

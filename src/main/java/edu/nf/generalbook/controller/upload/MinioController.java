@@ -1,6 +1,7 @@
 package edu.nf.generalbook.controller.upload;
 
 import edu.nf.generalbook.entity.User;
+import edu.nf.generalbook.service.minio.MinioService;
 import edu.nf.generalbook.service.minio.impl.MinioServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class MinioController {
     @Autowired
-    private MinioServiceImpl service;
+    private MinioService service;
 
     @PostMapping("/images/upload")
     public ResponseEntity<String> uploadImage(   @RequestParam String name,
@@ -36,8 +37,8 @@ public class MinioController {
             user.setEmail(email);
             user.setPhone(phone);
             user.setImage(image);
-            String imageUrl = service.uploadImage(user);
-            return ResponseEntity.ok(imageUrl);
+            service.uploadImage(user);
+            return ResponseEntity.ok("成功上传");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
         }
