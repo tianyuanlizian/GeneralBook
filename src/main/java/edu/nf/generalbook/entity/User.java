@@ -3,6 +3,7 @@ package edu.nf.generalbook.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @Author：tianyuan
@@ -24,10 +25,15 @@ public class User {
     private String sex;
     //邮箱
     private String email;
-    //头像
+    //头像url
     private String photo;
     //手机号码
     private String phone;
     //状态
     private String state;
+    //头像
+    private MultipartFile image;
+
+    public User(String name, String account, String password, String sex, String email, String phone, MultipartFile image) {
+    }
 }

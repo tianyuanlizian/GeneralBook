@@ -1,6 +1,7 @@
 package edu.nf.generalbook.vo;
 
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 
 /**
  * @author wangl
@@ -12,7 +13,7 @@ public class ResultVO<T> {
     /**
      * 业务状态码
      */
-    private Integer code;
+    private Integer code = HttpStatus.OK.value();
     /**
      * 响应的消息
      */
