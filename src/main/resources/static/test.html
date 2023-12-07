@@ -6,10 +6,13 @@
     <title>User Registration</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="js/layui.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
 </head>
 <body>
 
 <div id="app">
+
     <h1>User Registration</h1>
 
     <form @submit.prevent="registerUser" enctype="multipart/form-data">
@@ -17,14 +20,11 @@
         name<input type="text" v-model="user.name" required>
         <br>
 
-
         account<input type="text" v-model="user.account" required>
         <br>
 
-
         password<input type="password" v-model="user.password" required>
         <br>
-
 
         sex<select v-model="user.sex" required>
             <option value="男">男</option>
@@ -32,10 +32,8 @@
         </select>
         <br>
 
-
         email<input type="email" v-model="user.email" required>
         <br>
-
 
        phone <input type="tel" v-model="user.phone" required>
         <br>
@@ -45,6 +43,7 @@
 
         <button type="submit">Register</button>
     </form>
+</div>
 </div>
 
 <script>
@@ -92,6 +91,7 @@
             }
         }
     });
+
 </script>
 
 </body>

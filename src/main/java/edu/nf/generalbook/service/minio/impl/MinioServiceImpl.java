@@ -51,7 +51,7 @@ public class MinioServiceImpl implements MinioService {
     }
 
     /**
-     * path路径参数就是桶下面的子目录
+     * 上存图片并保存信息
      * @return
      */
     public void uploadImage(User user) throws Exception {
