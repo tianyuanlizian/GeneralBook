@@ -4,10 +4,45 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>用户列表</title>
+    <!-- vue -->
+    <script src="js/vue.js"></script>
+    <!-- jquery -->
+    <script src="js/jquery.min.js"></script>
+    <!-- element-ui -->
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="js/element-ui@2.15.13.js"></script>
     <!-- 请勿在项目正式环境中引用该 layui.css 地址 -->
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="js/layui.js"></script>
 </head>
+<style>
+    @import url("//unpkg.com/element-ui@2.15.14/lib/theme-chalk/index.css");
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+</style>
 <body>
 <!-- 搜索表单开始 -->
 <form class="layui-form">
@@ -23,84 +58,121 @@
 </form>
 
 <!--修改表单开始-->
-<div id="updateContainer" style="display: none">
-    <form class="layui-form" id="updateForm" lay-filter="example" style="margin: 1rem">
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">用户编号</label>
-            <div class="layui-input-block">
-                <input type="text" id="update-uid" name="uid"
-                       autocomplete="off" class="layui-input" />
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">用户名</label>
-            <div class="layui-input-block">
-                <input type="text" id="update-name" name="name"
-                       autocomplete="off" class="layui-input" />
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码</label>
-            <div class="layui-input-block">
-                <input type="text" id="update-password" name="password"
-                       autocomplete="off" class="layui-input" />
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">性别</label>
-            <div class="layui-input-block">
-                <input type="text" id="update-sex" name="sex"
-                       autocomplete="off" class="layui-input" />
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">邮箱</label>
-            <div class="layui-input-block">
-                <input type="text" id="update-email" name="email"
-                       autocomplete="off" class="layui-input" />
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">头像</label>
-            <div class="layui-input-block">
-                <input type="text" id="update-photo" name="photo"
-                       autocomplete="off" class="layui-input" />
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">手机号</label>
-            <div class="layui-input-block">
-                <input type="text" id="update-phone" name="phone"
-                       autocomplete="off" class="layui-input" />
-            </div>
-        </div>
-
-    </form>
+<div id="app" style="display: none">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="用户名：" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="账号：" prop="account">
+            <el-input v-model="ruleForm.account"></el-input>
+        </el-form-item>
+        <el-form-item label="密码：" prop="password">
+            <el-input  v-model="ruleForm.password" show-password autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="性别：" prop="sex">
+            <el-radio-group v-model="ruleForm.sex">
+                <el-radio label="男"></el-radio>
+                <el-radio label="女"></el-radio>
+            </el-radio-group>
+        </el-form-item>
+        <el-form-item label="邮箱：" prop="email">
+            <el-input v-model="ruleForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label= "头像：">
+            <el-upload
+                    class="avatar-uploader"
+                    action="/upload"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                <img v-if="ruleForm.photo" :src="ruleForm.photo"  class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+        </el-form-item>
+        <el-form-item label="手机号码：" prop="phone">
+            <el-input v-model="ruleForm.phone"></el-input>
+        </el-form-item>
+    </el-form>
+    </el-col>
+    </el-row>
 </div>
 
 <table id="table_data"></table>
 
 <!-- 操作工具条件开始 -->
-<script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        {{# if(d.state === '1'){ }}
-        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>
-        {{# } else { }}
-        <button class="layui-btn layui-btn-xs" lay-event="state">启用</button>
-        {{# } }}
-        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>
-    </div>
-</script>
+
 </body>
 </html>
 <script>
+    var app = new Vue({
+        el: '#app',
+        data() {
+            var checkName = (rule, value, callback) => {
+                if (!value) {
+                    callback(new Error('用户不能为空'));
+                }
+                callback();
+            };
+            var validatePass2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.ruleForm.pass) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
+            return {
+                ruleForm: {
+                    uid: '',
+                    name: '',
+                    account: '',
+                    password: '',
+                    sex: '',
+                    email: '',
+                    phone: '',
+                    photo:'',
+                },
+                rules: {
+                    name: [{
+                        validator: checkName,
+                        trigger: 'blur'
+                    }],
+                    account: [
+                        { required: true, message: '请输入账号', trigger: 'blur' }
+                    ],
+                    password: [{
+                        validator: validatePass2,
+                        trigger: 'blur'
+                    }],
+                    sex: [
+                        { required: true, message: '请选择性别', trigger: 'blur' }
+                    ],
+                    email: [
+                        { required: true, message: '请输入邮箱', trigger: 'blur' }
+                    ],
+                    phone: [
+                        { required: true, message: '请输入手机号', trigger: 'blur' }
+                    ],
+                },
+            };
+        },
+        methods:{
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 5;
+
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 5MB!');
+                }
+                return isLt2M;
+            },
+            handleAvatarSuccess(res, file) {
+                this.ruleForm.photo = res; // 假设后端返回的是图片的访问路径
+                console.log(this.ruleForm.photo)
+            },
+        }
+    });
+
     // 加载 table 模块
     layui.use( ['jquery', 'layer', 'form','table'],function(){
 
@@ -135,8 +207,17 @@
                         } else {
                             return '封禁';
                         }
-                        }}
-                ,{title: '操作', fixed: 'left',toolbar:'#toolbarDemo'}
+                    }}
+                ,{title: '操作', fixed: 'left',templet:function (row){
+                        if (row.state ==='1'){
+                            return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>' +
+                                '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                        }
+                        else {
+                            return '<button class="layui-btn layui-btn-xs" lay-event="state">启用</button>' +
+                                '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                        }
+                    }}
             ]]
             // 把后台数据转换为layui中table组件所要求的数据格式
             ,parseData:function( res ) {
@@ -151,47 +232,47 @@
         // 绑定查询按钮
         $('#selectBtn').on('click', function () {
             if ($('#name').val() != null && $('#name').val() != ""){
-            // 重新渲染动态表格相关的参数
-            table.render({
-                elem: '#table_data'
-                ,url: "/selectUser"
-                ,where: {
+                // 重新渲染动态表格相关的参数
+                table.render({
+                    elem: '#table_data'
+                    ,url: "/selectUser"
+                    ,where: {
                         // 在这里设置额外的参数
                         // 例如，传递一个名为 'param' 的参数，值为输入框中的值
                         param: $('#name').val()
                     }
-                ,page: true 	// 开启分页
-                ,limit:5
-                ,limits:[5,10,20]
-                ,cols:[[
-                    // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
-                    {field: 'uid', title: '用户ID',  fixed: 'left'}
-                    ,{field: 'name', title: '用户名', fixed: 'left'}
-                    ,{field: 'account', title: '账号',  fixed: 'left'}
-                    ,{field: 'password', title: '密码',  fixed: 'left'}
-                    ,{field: 'sex', title: '性别', fixed: 'left'}
-                    ,{field: 'email', title: '邮箱',  fixed: 'left'}
-                    ,{field: 'photo', title: '头像', fixed: 'left'}
-                    ,{field: 'phone', title: '手机号',  fixed: 'left'}
-                    ,{field: 'state', title: '状态',  fixed: 'left',templet:function(row){
-                            // console.log(row)
-                            if(row.state==1) {
-                                return '正常';
-                            } else {
-                                return '封禁';
-                            }
-                        }}
-                    ,{title: '操作', fixed: 'left',toolbar:'#toolbarDemo'}
-                ]]
-                // 把后台数据转换为layui中table组件所要求的数据格式
-                ,parseData:function( res ) {
-                    return {
-                        "code":res.code==200?0:'-1',
-                        "data":res.data,
-                        "count":res.count
-                    };
-                }
-            });
+                    ,page: true 	// 开启分页
+                    ,limit:5
+                    ,limits:[5,10,20]
+                    ,cols:[[
+                        // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
+                        {field: 'uid', title: '用户ID',  fixed: 'left'}
+                        ,{field: 'name', title: '用户名', fixed: 'left'}
+                        ,{field: 'account', title: '账号',  fixed: 'left'}
+                        ,{field: 'password', title: '密码',  fixed: 'left'}
+                        ,{field: 'sex', title: '性别', fixed: 'left'}
+                        ,{field: 'email', title: '邮箱',  fixed: 'left'}
+                        ,{field: 'photo', title: '头像', fixed: 'left'}
+                        ,{field: 'phone', title: '手机号',  fixed: 'left'}
+                        ,{field: 'state', title: '状态',  fixed: 'left',templet:function(row){
+                                // console.log(row)
+                                if(row.state==1) {
+                                    return '正常';
+                                } else {
+                                    return '封禁';
+                                }
+                            }}
+                        ,{title: '操作', fixed: 'left',toolbar:'#toolbarDemo'}
+                    ]]
+                    // 把后台数据转换为layui中table组件所要求的数据格式
+                    ,parseData:function( res ) {
+                        return {
+                            "code":res.code==200?0:'-1',
+                            "data":res.data,
+                            "count":res.count
+                        };
+                    }
+                });
             }else {
                 location.href = 'user.html';
             }
@@ -217,49 +298,58 @@
                             layer.msg("修改成功")
                             // 根据弹出层的索引，关闭弹出确认框
                             layer.close(index) ;
-                                // 重新加载表格数据
-                                table.reload('table_data',{page:{curr:1}});
+                            // 重新加载表格数据
+                            table.reload('table_data',{page:{curr:1}});
                         }
                     }) ;
                 }) ;
 
             } else if(obj.event=='update') {
+                console.log(obj.data.photo)
                 // 第一：获取当前行的数据
                 let p = obj.data ;
+                app.ruleForm = {
+                    name: p.name,
+                    account: p.account,
+                    password: p.password,
+                    sex: p.sex,
+                    email: p.email,
+                    photo: p.photo,
+                    phone: p.phone,
+                    uid: p.uid,
+                };
 
                 // 第二：弹出修改窗体，并把当前行的数据回显在页面中
                 // 1.把数据设置在修改表单中
-                $("#update-uid").val(p.uid) ;
-                $("#update-name").val(p.name) ;
-                $("#update-password").val(p.password) ;
-                $("#update-sex").val(p.sex) ;
-                $("#update-email").val(p.email) ;
-                $("#update-photo").val(p.photo) ;
-                $("#update-phone").val(p.phone) ;
-
-                // 重新渲染表单
-                form.render();
-
                 // 2.弹出窗体
                 layer.open({
                     type:1,
                     title:'修改商品',
                     area:['50%','35em'],
                     resize:false,
-                    content:$("#updateContainer"),
+                    content:$("#app"),
                     btn:['修改','取消'],
                     btn1:function( index ) {
                         $.ajax({
                             url:'/updUser',
                             method:'post',
-                            data:$("#updateForm").serialize(),
+                            data:{
+                                uid:app.ruleForm.uid,
+                                name: app.ruleForm.name,
+                                account: app.ruleForm.account,
+                                password: app.ruleForm.password,
+                                sex: app.ruleForm.sex,
+                                email: app.ruleForm.email,
+                                image: app.ruleForm.photo,
+                                phone: app.ruleForm.phone
+                            },
                             success:function( res ){
                                 // 弹出提示框
                                 layer.msg("修改成功")
                                 // 根据弹出层的索引，关闭弹出确认框
                                 layer.close(index) ;
-                                    // 重新加载表格数据
-                                    table.reload('table_data',{page:{curr:1}});
+                                // 重新加载表格数据
+                                table.reload('table_data',{page:{curr:1}});
                             }
                         }) ;
                     }

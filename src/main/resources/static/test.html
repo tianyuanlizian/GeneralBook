@@ -85,7 +85,7 @@
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload">
-                <img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl"  class="avatar">
+                <img v-if="ruleForm.photo" :src="ruleForm.photo"  class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
         </el-form-item>
@@ -124,13 +124,14 @@
             };
             return {
                 ruleForm: {
+                    uid: '',
                     name: '',
                     account: '',
                     password: '',
                     sex: '',
                     email: '',
-                    image: '',
-                    phone: ''
+                    phone: '',
+                    photo:'',
                 },
                 rules: {
                     name: [{
@@ -153,8 +154,22 @@
                     phone: [
                         { required: true, message: '请输入手机号', trigger: 'blur' }
                     ],
-                }
+                },
             };
+        },
+        methods:{
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 5;
+
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 5MB!');
+                }
+                return isLt2M;
+            },
+            handleAvatarSuccess(res, file) {
+                this.ruleForm.photo = res; // 假设后端返回的是图片的访问路径
+                console.log(this.ruleForm.photo)
+            },
         }
     });
 
@@ -290,6 +305,7 @@
                 }) ;
 
             } else if(obj.event=='update') {
+                console.log(obj.data.photo)
                 // 第一：获取当前行的数据
                 let p = obj.data ;
                 app.ruleForm = {
@@ -298,8 +314,9 @@
                     password: p.password,
                     sex: p.sex,
                     email: p.email,
-                    image: p.imageUrl,
-                    phone: p.phone
+                    photo: p.photo,
+                    phone: p.phone,
+                    uid: p.uid,
                 };
 
                 // 第二：弹出修改窗体，并把当前行的数据回显在页面中
@@ -317,12 +334,13 @@
                             url:'/updUser',
                             method:'post',
                             data:{
+                                uid:app.ruleForm.uid,
                                 name: app.ruleForm.name,
                                 account: app.ruleForm.account,
                                 password: app.ruleForm.password,
                                 sex: app.ruleForm.sex,
                                 email: app.ruleForm.email,
-                                image: app.ruleForm.imageUrl,
+                                image: app.ruleForm.photo,
                                 phone: app.ruleForm.phone
                             },
                             success:function( res ){
