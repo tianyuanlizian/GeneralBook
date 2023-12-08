@@ -41,14 +41,14 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public void addUser(String name,String account, String password, String sex, String email, String photo, String phone){
+    public void addUser(String name,String account, String password, String sex, String email, String image, String phone){
         User user = new User();
         user.setName(name);
         user.setAccount(account);
         user.setPassword(password);
         user.setSex(sex);
         user.setEmail(email);
-        user.setPhoto(photo);
+        user.setPhoto(image);
         user.setPhone(phone);
         user.setState("1");
         service.addUser(user);
@@ -61,14 +61,14 @@ public class UserController {
     }
 
     @PostMapping("/updUser")
-    public void updUser(Integer uid ,String name, String password, String sex, String email, String photo, String phone){
+    public void updUser(Integer uid ,String name, String password, String sex, String email, String image, String phone){
         User user = new User();
         user.setUId(uid);
         user.setName(name);
         user.setPassword(password);
         user.setSex(sex);
         user.setEmail(email);
-        user.setPhoto(photo);
+        user.setPhoto(image);
         user.setPhone(phone);
         service.updUser(user);
     }

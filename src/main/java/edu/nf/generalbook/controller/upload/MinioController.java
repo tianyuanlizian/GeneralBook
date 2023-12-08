@@ -20,27 +20,34 @@ public class MinioController {
     @Autowired
     private MinioService service;
 
-    @PostMapping("/images/upload")
-    public ResponseEntity<String> uploadImage(   @RequestParam String name,
-                                                 @RequestParam String account,
-                                                 @RequestParam String password,
-                                                 @RequestParam String sex,
-                                                 @RequestParam String email,
-                                                 @RequestParam String phone,
-                                                 @RequestParam MultipartFile image) {
-        try {
-            User user = new User();
-            user.setName(name);
-            user.setAccount(account);
-            user.setPassword(password);
-            user.setSex(sex);
-            user.setEmail(email);
-            user.setPhone(phone);
-            user.setImage(image);
-            service.uploadImage(user);
-            return ResponseEntity.ok("成功上传");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
-        }
+//    @PostMapping("/images/upload")
+//    public ResponseEntity<String> uploadImage(   @RequestParam String name,
+//                                                 @RequestParam String account,
+//                                                 @RequestParam String password,
+//                                                 @RequestParam String sex,
+//                                                 @RequestParam String email,
+//                                                 @RequestParam String phone,
+//                                                 @RequestParam MultipartFile image) {
+//        try {
+//            User user = new User();
+//            user.setName(name);
+//            user.setAccount(account);
+//            user.setPassword(password);
+//            user.setSex(sex);
+//            user.setEmail(email);
+//            user.setPhone(phone);
+//            user.setImage(image);
+//            service.uploadImage(user);
+//            return ResponseEntity.ok("成功上传");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+//        }
+//    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        String fileUrl = service.uploadFile(file);
+
+        return ResponseEntity.ok(fileUrl);
     }
 }

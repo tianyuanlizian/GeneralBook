@@ -3,6 +3,7 @@ package edu.nf.generalbook.service.minio;
 import edu.nf.generalbook.entity.User;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @Author：tianyuan
@@ -22,6 +23,13 @@ public interface MinioService {
      * @throws Exception
      */
     void uploadImage(User user)  throws Exception;
+
+    /**
+     * 图片上传
+     * @param file
+     * @return
+     */
+    String uploadFile(MultipartFile file);
 
     /**
      * 下载功能

@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,6 +79,35 @@ public class MinioServiceImpl implements MinioService {
     }
 
     /**
+     * 上存图片
+     * @param file
+     * @return
+     */
+    public String uploadFile(MultipartFile file) {
+        try {
+            // 生成唯一文件名
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+
+            // 使用MinioClient上传文件
+            minioClient.putObject(
+                    io.minio.PutObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(fileName)
+                            .contentType("application/octet-stream")
+                            .stream(file.getInputStream(), file.getSize(), -1)
+                            .build()
+            );
+
+            // 返回文件访问路径
+            return getPresignedUrl(bucketName,fileName);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to upload file", e);
+        }
+    }
+
+
+
+    /**
      * 文件下载
      * @param fileName 文件名
      * @return
@@ -119,13 +149,19 @@ public class MinioServiceImpl implements MinioService {
      */
     private String getPresignedUrl(String bucketName, String objectName) throws Exception {
         try {
-            String url = minioClient.getPresignedObjectUrl(
+            String uploadUrl = minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
                             .method(Method.GET)
                             .bucket(bucketName)
                             .object(objectName)
                             .build()
             );
+            // 使用 indexOf 寻找问号的位置
+            int indexOfQuestionMark = uploadUrl.indexOf('?');
+
+            // 如果找到问号，截取字符串
+            String url = (indexOfQuestionMark != -1) ? uploadUrl.substring(0, indexOfQuestionMark) : uploadUrl;
+
             return url;
         } catch (MinioException e) {
             throw new Exception("Error generating presigned URL", e);
