@@ -100,13 +100,7 @@
 <table id="table_data"></table>
 
 <!-- 操作工具条件开始 -->
-<script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button v-if=false class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>
-        <button v-else class="layui-btn layui-btn-xs" lay-event="state">启用</button>
-        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>
-    </div>
-</script>
+
 </body>
 </html>
 <script>
@@ -199,7 +193,16 @@
                             return '封禁';
                         }
                     }}
-                ,{title: '操作', fixed: 'left',toolbar:'#toolbarDemo'}
+                ,{title: '操作', fixed: 'left',templet:function (row){
+                    if (row.state ==='1'){
+                        return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>' +
+                            '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                    }
+                    else {
+                        return '<button class="layui-btn layui-btn-xs" lay-event="state">启用</button>' +
+                            '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                    }
+                    }}
             ]]
             // 把后台数据转换为layui中table组件所要求的数据格式
             ,parseData:function( res ) {
