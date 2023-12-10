@@ -16,7 +16,7 @@ public interface UserDao {
 
     void updUserState(Integer uId, String state);
 
-    List<User> listUser(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+    List<User> listUser(@Param("pageNum") Integer pageNum,@Param("pageSize") Integer pageSize);
 
     User loginUser(String account);
 

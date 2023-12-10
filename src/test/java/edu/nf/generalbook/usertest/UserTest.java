@@ -57,7 +57,7 @@ public class UserTest {
 
     @Test
     void listUser(){
-        PageVO<List<User>> vo = service.listUser(1, 10);
+        PageVO<List<User>> vo = service.listUser(1, 5);
         List<User> list = vo.getData();
         list.forEach(user -> {
             log.info(user.toString());
