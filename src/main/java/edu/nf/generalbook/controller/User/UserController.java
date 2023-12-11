@@ -61,10 +61,11 @@ public class UserController {
     }
 
     @PostMapping("/updUser")
-    public void updUser(Integer uid ,String name, String password, String sex, String email, String image, String phone){
+    public void updUser(Integer uid ,String name, String account, String password, String sex, String email, String image, String phone){
         User user = new User();
         user.setUId(uid);
         user.setName(name);
+        user.setAccount(account);
         user.setPassword(password);
         user.setSex(sex);
         user.setEmail(email);
@@ -84,7 +85,6 @@ public class UserController {
         String[] fields = {"name", "account", "email", "phone"};
         List<UserDoc> list = esService.boolSearch(UserDoc.class, param, fields);
         PageVO vo = new PageVO();
-        vo.setCode(200);
         vo.setData(list);
         vo.setCount(list.stream().count());
         return vo;

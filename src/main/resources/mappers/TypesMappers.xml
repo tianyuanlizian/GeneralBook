@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.generalbook.dao.TypesDao">
+    <resultMap id="typesMap" type="edu.nf.generalbook.entity.Types">
+        <id property="tId" column="t_id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <insert id="addTypes">
+        insert into types(name) values (#{name})
+    </insert>
+    <delete id="delTypes">
+        delete from types where t_id = #{id}
+    </delete>
+    <select id="listTypes" resultMap="typesMap">
+        select t_id,name from types
+    </select>
+    <select id="count" >
+        select count(*) from types
+    </select>
+    <select id="typesList" resultMap="typesMap">
+        select t_id,name from types
+    </select>
+</mapper>

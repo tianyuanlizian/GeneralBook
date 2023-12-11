@@ -19,7 +19,7 @@
         insert into user(name,account,password,sex,email,photo,phone,state) values (#{name},#{account},#{password},#{sex},#{email},#{photo},#{phone},#{state})
     </insert>
     <update id="updUser">
-        update user set name = #{name},password = #{password},sex = #{sex},email = #{email},photo = #{photo},phone = #{phone} where u_id = #{uId}
+        update user set name = #{name},account = #{account} ,password = #{password},sex = #{sex},email = #{email},photo = #{photo},phone = #{phone} where u_id = #{uId}
     </update>
     <update id="updUserState">
         update user set state = #{state} where u_id = #{uId}

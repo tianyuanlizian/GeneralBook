@@ -1,8 +1,10 @@
 package edu.nf.generalbook.usertest;
 
 import edu.nf.generalbook.dao.UserDao;
+import edu.nf.generalbook.doc.UserDoc;
 import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.User.UserService;
+import edu.nf.generalbook.service.es.EsService;
 import edu.nf.generalbook.vo.PageVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,10 @@ public class UserTest {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private UserDao dao;
+    @Autowired
+    private EsService esService;
 
     @Test
     void addTest(){
@@ -68,5 +74,47 @@ public class UserTest {
         PageVO<List<User>> vo = service.listUser(1, 10);
         Long count = vo.getCount();
         log.info(count.toString());
+    }
+
+    /**
+     * 创建搜索引擎索引
+     */
+    @Test
+    void createIndexTest(){
+        esService.createIndex(UserDoc.class);
+    }
+
+    /**
+     * 创建mapper
+     */
+    @Test
+    void putMappingTest(){
+        esService.putMapping(UserDoc.class);
+    }
+
+    /**
+     * 创建文档并同步
+     */
+    @Test
+    void createDocTest(){
+        List<User> list = dao.userList();
+        list.forEach(user -> {
+            UserDoc doc = new UserDoc(user.getUId(), user.getName(), user.getAccount(), user.getPassword(), user.getSex(), user.getEmail(), user.getPhoto(), user.getPhone(), user.getState());
+            esService.createDoc(doc);
+        });
+    }
+
+    /**
+     * 布隆查询
+     */
+    @Test
+    void boolSearchTest(){
+        String[] fields = {"name", "account", "email", "phone"};
+        List<UserDoc> list = esService.boolSearch(UserDoc.class, "测试", fields);
+        list.forEach(userDoc ->{
+            log.info(userDoc.getName());
+            log.info(userDoc.getAccount());
+            log.info(userDoc.getPhone());
+        });
     }
 }

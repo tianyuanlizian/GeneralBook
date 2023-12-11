@@ -115,9 +115,7 @@
             };
             var validatePass2 = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('请再次输入密码'));
-                } else if (value !== this.ruleForm.pass) {
-                    callback(new Error('两次输入密码不一致!'));
+                    callback(new Error('请输入密码'));
                 } else {
                     callback();
                 }
@@ -261,7 +259,16 @@
                                     return '封禁';
                                 }
                             }}
-                        ,{title: '操作', fixed: 'left',toolbar:'#toolbarDemo'}
+                        ,{title: '操作', fixed: 'left',templet:function (row){
+                                if (row.state ==='1'){
+                                    return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>' +
+                                        '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                                }
+                                else {
+                                    return '<button class="layui-btn layui-btn-xs" lay-event="state">启用</button>' +
+                                        '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                                }
+                            }}
                     ]]
                     // 把后台数据转换为layui中table组件所要求的数据格式
                     ,parseData:function( res ) {
