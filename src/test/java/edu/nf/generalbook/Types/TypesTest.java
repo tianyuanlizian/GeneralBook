@@ -76,7 +76,7 @@ public class TypesTest {
             esService.createDoc(doc);
         });
     }
-    
+
     /**
      * 布隆查询
      */
