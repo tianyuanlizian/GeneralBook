@@ -17,7 +17,7 @@ public class Commodity {
     //编号
     private Integer bId;
     //名称
-    private String name;
+    private String bName;
     //作者
     private String author;
     //出版社

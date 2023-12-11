@@ -26,7 +26,7 @@ public class CommodityDoc {
     private Integer bId;
     //名称
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
-    private String name;
+    private String bName;
     //作者
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String author;

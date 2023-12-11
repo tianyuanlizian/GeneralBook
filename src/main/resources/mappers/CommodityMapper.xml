@@ -2,5 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.nf.generalbook.dao.CommodityDao">
+    <resultMap id="commodityMap" type="edu.nf.generalbook.entity.Commodity">
+        <id property="bId" column="b_id"/>
+        <result property="bName" column="b_name"/>
+        <result property="author" column="author"/>
+        <result property="press" column="press"/>
+        <result property="notes" column="notes"/>
+        <result property="tId" column="t_id"/>
+        <result property="issuingDate" column="issuing_date"/>
+        <result property="produceDate" column="produce_date"/>
+        <result property="picture" column="picture"/>
+        <result property="inventory" column="inventory"/>
+        <result property="state" column="state"/>
+        <association property="types">
+            <id property="tId" column="t_id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+    <insert id="addCommodity">
+        insert into commodity(b_name,author,press,notes,t_id,issuing_date,produce_date,picture,inventory,state)
+        values(#{b_name},#{author},#{press},#{notes},#{t_id},#{issuing_date},#{produce_date},#{picture},#{inventory},#{state})
+    </insert>
+    <select id="listCommodity" resultMap="commodityMap">
+        select c.b_id,c.b_name,c.author,c.press,c.notes,c.t_id,c.issuing_date,c.produce_date,c.picture,c.inventory,c.state,t.name
+        from commodity c join types t on c.t_id = t.t_id
+    </select>
 
 </mapper>

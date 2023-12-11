@@ -35,4 +35,16 @@ public interface CommodityDao {
      * @param state
      */
     void updCommodityState(Integer bId, String state);
+
+    /**
+     * 查询总记录数
+     * @return
+     */
+    Long count();
+
+    /**
+     * 查询所有商品信息
+     * @return
+     */
+    List<Commodity> commodityList();
 }
