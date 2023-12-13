@@ -18,7 +18,7 @@ public interface CommodityDao {
     List<Commodity> listCommodity(Integer pageNum,Integer pageSize);
 
     /**
-     * 添加商
+     * 添加商品
      * @param commodity
      */
     void addCommodity(Commodity commodity);

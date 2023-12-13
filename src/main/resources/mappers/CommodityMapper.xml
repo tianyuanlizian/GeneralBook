@@ -21,9 +21,23 @@
     </resultMap>
     <insert id="addCommodity">
         insert into commodity(b_name,author,press,notes,t_id,issuing_date,produce_date,picture,inventory,state)
-        values(#{b_name},#{author},#{press},#{notes},#{t_id},#{issuing_date},#{produce_date},#{picture},#{inventory},#{state})
+        values(#{bName},#{author},#{press},#{notes},#{tId},#{issuingDate},#{produceDate},#{picture},#{inventory},#{state})
     </insert>
+    <update id="updCommodity">
+       update commodity set b_name = #{bName},author = #{author},press =#{press} ,notes = #{notes},t_id = #{tId} ,issuing_date = #{issuingDate},
+                            produce_date = #{produceDate},picture = #{picture},inventory = #{inventory},state = #{state} where b_id = #{bId}
+    </update>
+    <update id="updCommodityState">
+       update commodity set state = #{state} where b_id = #{bId}
+    </update>
     <select id="listCommodity" resultMap="commodityMap">
+        select c.b_id,c.b_name,c.author,c.press,c.notes,c.t_id,c.issuing_date,c.produce_date,c.picture,c.inventory,c.state,t.name
+        from commodity c join types t on c.t_id = t.t_id
+    </select>
+    <select id="count">
+        select count(*) from commodity
+    </select>
+    <select id="commodityList" resultMap="commodityMap">
         select c.b_id,c.b_name,c.author,c.press,c.notes,c.t_id,c.issuing_date,c.produce_date,c.picture,c.inventory,c.state,t.name
         from commodity c join types t on c.t_id = t.t_id
     </select>

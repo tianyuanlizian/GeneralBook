@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +23,57 @@ public class CommodityTest {
     @Test
     void listCommodityTest(){
         List<Commodity> list = dao.listCommodity(1, 5);
+        list.forEach(commodity -> {
+            log.info(commodity.toString());
+        });
+    }
+    @Test
+    void addCommodityTest(){
+        Commodity commodity = new Commodity();
+        commodity.setBName("骚鹏特饮");
+        commodity.setAuthor("骚");
+        commodity.setPress("sao");
+        commodity.setNotes("这是骚鹏特饮");
+        commodity.setTId(2);
+        commodity.setIssuingDate("2020-2-20");
+        commodity.setProduceDate(new Date());
+        commodity.setPicture("egdfjs");
+        commodity.setInventory(110);
+        commodity.setState("1");
+        dao.addCommodity(commodity);
+    }
+
+    @Test
+    void updCommodityTest(){
+        Commodity commodity = new Commodity();
+        commodity.setBId(1);
+        commodity.setBName("骚bie特饮");
+        commodity.setAuthor("骚");
+        commodity.setPress("sao");
+        commodity.setNotes("这是骚bie特饮");
+        commodity.setTId(2);
+        commodity.setIssuingDate("2020-2-20");
+        commodity.setProduceDate(new Date());
+        commodity.setPicture("http");
+        commodity.setInventory(110);
+        commodity.setState("1");
+        dao.updCommodity(commodity);
+    }
+
+    @Test
+    void updCommodityState(){
+        dao.updCommodityState(1,"0");
+    }
+
+    @Test
+    void count(){
+        Long count = dao.count();
+        log.info(count.toString());
+    }
+
+    @Test
+    void commodityListTest(){
+        List<Commodity> list = dao.commodityList();
         list.forEach(commodity -> {
             log.info(commodity.toString());
         });
