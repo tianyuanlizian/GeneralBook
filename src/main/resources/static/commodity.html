@@ -194,7 +194,7 @@
                 ,{field: 'author', title: '作者',  fixed: 'left'}
                 ,{field: 'press', title: '出版社',  fixed: 'left'}
                 ,{field: 'notes', title: '简介', fixed: 'left'}
-                ,{field: 'tName', title: '类型',  fixed: 'left'}
+                ,{field: 'typeName', title: '类型',  fixed: 'left'}
                 ,{field: 'issuingDate', title: '发行时间', fixed: 'left'}
                 ,{field: 'produceDate', title: '生产日期',  fixed: 'left'}
                 ,{field: 'picture', title: '图片',  fixed: 'left'}
@@ -220,10 +220,26 @@
             ]]
             // 把后台数据转换为layui中table组件所要求的数据格式
             ,parseData:function( res ) {
+                var processedData = res.data.map(function(item) {
+                    return {
+                        author: item.author,
+                        press: item.press,
+                        notes: item.notes,
+                        issuingDate: item.issuingDate,
+                        produceDate: item.produceDate,
+                        picture: item.picture,
+                        inventory: item.inventory,
+                        state: item.state,
+                        typeName: item.types.name,
+                        bname: item.bname,
+                        tid: item.tid,
+                        bid: item.bid
+                        // 其他字段根据需要添加
+                    };
+                })
                 return {
                     "code":res.code==200?0:'-1',
-                    "data":res.data,
-                    "tName":res.data.types.name,
+                    "data":processedData,
                     "count":res.count
                 };
             }
@@ -296,12 +312,12 @@
                 let state =  obj.data.state == 1 ? '0' : '1';
 
                 // 弹出确认框
-                layer.confirm("您确认更改此用户的状态吗？",function( index ){
+                layer.confirm("您确认更改此商品的状态吗？",function( index ){
                     // 向服务器发起异步请求，实现数据的删除
                     $.ajax({
-                        url:'/updState',
+                        url:'/updCommodityState',
                         method:'get',
-                        data:{'uid':p.uid,'state' : state},
+                        data:{'bId':p.bid,'state' : state},
                         success:function( res ){
                             // 弹出提示框
                             layer.msg("修改成功")
