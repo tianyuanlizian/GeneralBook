@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>用户列表</title>
+    <title>商品列表</title>
     <!-- vue -->
     <script src="js/vue.js"></script>
     <!-- jquery -->
@@ -49,7 +49,7 @@
     <div class="layui-inline">
         <label class="layui-form-label">查询条件</label>
         <div class="layui-input-block">
-            <input type="text" id="name" name="name" style="width: 400px;"  placeholder="请输入用户信息" autocomplete="off" class="layui-input">
+            <input type="text" id="name" name="name" style="width: 400px;"  placeholder="请输入商品名称" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-inline">
@@ -183,35 +183,37 @@
         // 定义动态表格相关的参数
         table.render({
             elem: '#table_data'
-            ,url:'/listUser'
+            ,url:'/listCommodity'
             ,page: true 	// 开启分页
             ,limit:5
             ,limits:[5,10,20]
             ,cols:[[
                 // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
-                {field: 'uid', title: '用户ID',  fixed: 'left'}
-                ,{field: 'name', title: '用户名', fixed: 'left'}
-                ,{field: 'account', title: '账号',  fixed: 'left'}
-                ,{field: 'password', title: '密码',  fixed: 'left'}
-                ,{field: 'sex', title: '性别', fixed: 'left'}
-                ,{field: 'email', title: '邮箱',  fixed: 'left'}
-                ,{field: 'photo', title: '头像', fixed: 'left'}
-                ,{field: 'phone', title: '手机号',  fixed: 'left'}
+                {field: 'bid', title: '商品ID',  fixed: 'left'}
+                ,{field: 'bname', title: '商品名称', fixed: 'left'}
+                ,{field: 'author', title: '作者',  fixed: 'left'}
+                ,{field: 'press', title: '出版社',  fixed: 'left'}
+                ,{field: 'notes', title: '简介', fixed: 'left'}
+                ,{field: 'tName', title: '类型',  fixed: 'left'}
+                ,{field: 'issuingDate', title: '发行时间', fixed: 'left'}
+                ,{field: 'produceDate', title: '生产日期',  fixed: 'left'}
+                ,{field: 'picture', title: '图片',  fixed: 'left'}
+                ,{field: 'inventory', title: '库存',  fixed: 'left'}
                 ,{field: 'state', title: '状态',  fixed: 'left',templet:function(row){
                         // console.log(row)
                         if(row.state==1) {
-                            return '正常';
+                            return '售卖中';
                         } else {
-                            return '封禁';
+                            return '下架中';
                         }
                     }}
                 ,{title: '操作', fixed: 'left',templet:function (row){
                         if (row.state ==='1'){
-                            return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>' +
+                            return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">下架</button>' +
                                 '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
                         }
                         else {
-                            return '<button class="layui-btn layui-btn-xs" lay-event="state">启用</button>' +
+                            return '<button class="layui-btn layui-btn-xs" lay-event="state">上架</button>' +
                                 '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
                         }
                     }}
@@ -221,6 +223,7 @@
                 return {
                     "code":res.code==200?0:'-1',
                     "data":res.data,
+                    "tName":res.data.types.name,
                     "count":res.count
                 };
             }
