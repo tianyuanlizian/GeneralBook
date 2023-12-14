@@ -97,16 +97,10 @@
             <div class="layui-input-split layui-input-prefix">
                 商品类型：
             </div>
-            <div class="layui-form layui-row layui-col-space16">
-                <div class="layui-col-md6">
-                    <select lay-search="">
-                        <option value="">选择</option>
-                        <option value="a1">a1</option>
-                        <option value="a2">a2</option>
-                        <option value="aa1">aA1</option>
-                        <option value="aa2">aA2</option>
-                    </select>
-                </div>
+            <div>
+                <select  style="width: 100px;height: 35px;border: #c9c5c5 1px solid" v-model="ruleForm.tid" id="dataSelect" >
+                    <option v-for="item in typeData" :key="item.tid" :value="item.tid">{{ item.name }}</option>
+                </select>
             </div>
         </div>
     </div>
@@ -123,7 +117,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">生产日期：</label>
             <div class="layui-input-inline">
-                <input  type="text" class="layui-input" v-model="ruleForm.produceDate" id="ID-laydate-demo" placeholder="yyyy-MM-dd">
+                <input  type="text" class="layui-input" value='2018-08-18' id="ID-laydate-demo" placeholder="yyyy-MM-dd">
             </div>
         </div>
     </div>
@@ -170,6 +164,7 @@
                     press: '',
                     notes: '',
                     typeName: '',
+                    tid:'',
                     issuingDate: '',
                     produceDate: '',
                     picture:'',
@@ -177,8 +172,20 @@
                 },
                 rules: {
                 },
-                options: [],
+                typeData: [],
             };
+        },
+        mounted() {
+            let that = this;
+            $.ajax({
+                url:'/typesList',
+                method:'GET',
+                success:function( res ){
+
+                    that.typeData = res.data;
+                    console.log(that.typeData)
+                }
+            }) ;
         },
         methods:{
             beforeAvatarUpload(file) {
@@ -389,19 +396,19 @@
                     btn1:function( index ) {
                         $.ajax({
                             url:'/updCommodity',
-                            method:'post',
+                            method:'POST',
                             data:{
+                                bId: p.bid,
+                                bname: app.ruleForm.bname,
                                 author: app.ruleForm.author,
                                 press: app.ruleForm.press,
                                 notes: app.ruleForm.notes,
+                                tId: app.ruleForm.tid,
                                 issuingDate: app.ruleForm.issuingDate,
                                 produceDate: app.ruleForm.produceDate,
                                 picture: app.ruleForm.picture,
                                 inventory: app.ruleForm.inventory,
-                                typeName: app.ruleForm.typeName,
-                                bname: app.ruleForm.bname,
-                                tid: app.ruleForm.tid,
-                                bid: p.bid
+
                             },
                             success:function( res ){
                                 // 弹出提示框

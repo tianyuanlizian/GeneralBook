@@ -18,15 +18,21 @@
 </head>
 <body>
 <div id="app">
-    <label for="dataSelect">选择数据：</label>
-    <select v-model="selectedValue" id="dataSelect">
-        <option v-for="item in data" :key="item.tid" :value="item.tid">{{ item.name }}</option>
-    </select>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择数据：</label>
+            <div class="layui-input-inline">
+                <select v-model="selectedValue" lay-search lay-filter="dataSelect">
+                    <option v-for="item in data" :key="item.tid" :value="item.tid">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
 
-    <div>
-        <p v-if="selectedValue">选择的数据是：{{ selectedValue }}</p>
-        <p v-else>请选择数据</p>
-    </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <p v-if="selectedValue">选择的数据是：{{ selectedValue }}</p>
+                <p v-else>请选择数据</p>
+            </div>
+        </div>
 </div>
 </body>
 </html>
@@ -34,22 +40,27 @@
     new Vue({
         el: '#app',
         data: {
-            data: [ { tid: '1', name: '选项 1' },
-                { tid: '2', name: '选项 2' },
-                { tid: '3', name: '选项 3' }
-            ],           // 存储从后台获取的数据
+            data: [],           // 存储从后台获取的数据
             selectedValue: ''   // 存储选择的值
         },
         mounted() {
+            let that = this;
             $.ajax({
                 url:'/typesList',
                 method:'GET',
                 success:function( res ){
 
-                    //this.data = res.data;
-                    console.log(this.data)
+                    that.data = res.data;
+                    console.log(that.data)
                 }
             }) ;
         },
+    });
+
+    // 初始化layui
+    layui.use('form', function() {
+        var form = layui.form;
+        // 单独渲染选择框
+        form.render('select');
     });
 </script>
