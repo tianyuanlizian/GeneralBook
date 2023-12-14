@@ -41,4 +41,10 @@ public class TypesServiceImpl implements TypesService {
         vo.setCount(count);
         return vo;
     }
+
+    @Override
+    public List<Types> typesList() {
+        List<Types> list = dao.typesList();
+        return list;
+    }
 }

@@ -23,8 +23,10 @@ public interface TypesService {
     void delTypes(Integer id);
 
     /**
-     * 查询所有类型
+     * 查询所有类型并分页
      * @return
      */
     PageVO<List<Types>> listTypes(Integer pageNum, Integer pageSize);
+
+    List<Types> typesList();
 }

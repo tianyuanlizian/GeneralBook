@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>用户列表</title>
+    <title>商品列表</title>
     <!-- vue -->
     <script src="js/vue.js"></script>
     <!-- jquery -->
@@ -59,38 +59,93 @@
 
 <!--修改表单开始-->
 <div id="app" style="display: none">
+
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                商品名称
+            </div>
+            <input type="text"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                作者
+            </div>
+            <input type="text"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                出版社
+            </div>
+            <input type="text"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                简介
+            </div>
+            <input type="text"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">中文版</label>
+            <div class="layui-input-inline">
+                <input  type="text" class="layui-input" id="ID-laydate-demo" placeholder="yyyy-MM-dd">
+            </div>
+        </div>
+    </div>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="用户名：" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+        <el-form-item label="商品名称：" prop="bname">
+            <el-input v-model="ruleForm.bname"></el-input>
         </el-form-item>
-        <el-form-item label="账号：" prop="account">
-            <el-input v-model="ruleForm.account"></el-input>
+        <el-form-item label="作者：" prop="author">
+            <el-input v-model="ruleForm.author"></el-input>
         </el-form-item>
-        <el-form-item label="密码：" prop="password">
-            <el-input  v-model="ruleForm.password" show-password autocomplete="off"></el-input>
+        <el-form-item label="出版社：" prop="press">
+            <el-input  v-model="ruleForm.press"></el-input>
         </el-form-item>
-        <el-form-item label="性别：" prop="sex">
-            <el-radio-group v-model="ruleForm.sex">
-                <el-radio label="男"></el-radio>
-                <el-radio label="女"></el-radio>
-            </el-radio-group>
+        <el-form-item label="简介：" prop="notes">
+            <el-input  v-model="ruleForm.notes"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱：" prop="email">
-            <el-input v-model="ruleForm.email"></el-input>
+        <el-form-item label="类型：" prop="typeName">
+            <el-select v-model="ruleForm.typeName" filterable placeholder="请选择">
+                <el-option
+                        v-for="type in options"
+                        :key="type.tid"
+                        :label="type.name"
+                        :value="type.tid">
+                </el-option>
+            </el-select>
         </el-form-item>
-        <el-form-item label= "头像：">
+        <el-form-item label="发行时间：" prop="issuingDate">
+            <el-input  v-model="ruleForm.issuingDate"></el-input>
+        </el-form-item>
+        <el-form-item label="生产日期：" prop="produceDate">
+            <el-date-picker
+                    v-model="ruleForm.produceDate"
+                    type="date"
+                    placeholder="选择日期">
+            </el-date-picker>
+        </el-form-item>
+        <el-form-item label="图片：">
             <el-upload
                     class="avatar-uploader"
                     action="/upload"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload">
-                <img v-if="ruleForm.photo" :src="ruleForm.photo"  class="avatar">
+                <img v-if="ruleForm.picture" :src="ruleForm.picture"  class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
         </el-form-item>
-        <el-form-item label="手机号码：" prop="phone">
-            <el-input v-model="ruleForm.phone"></el-input>
+        <el-form-item label="库存：" prop="inventory">
+            <el-input  v-model="ruleForm.inventory"></el-input>
         </el-form-item>
     </el-form>
     </el-col>
@@ -104,57 +159,44 @@
 </body>
 </html>
 <script>
+    layui.use(function(){
+        var laydate = layui.laydate;
+        // 渲染
+        laydate.render({
+            elem: '#ID-laydate-demo'
+        });
+    });
+</script>
+<script>
     var app = new Vue({
         el: '#app',
+        mounted(){
+            $.ajax({
+                url:'/typesList',
+                method:'GET',
+                success:function( res ){
+
+                    this.options = res.data;
+                    console.log(this.options)
+                }
+            }) ;
+        },
         data() {
-            var checkName = (rule, value, callback) => {
-                if (!value) {
-                    callback(new Error('用户不能为空'));
-                }
-                callback();
-            };
-            var validatePass2 = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请再次输入密码'));
-                } else if (value !== this.ruleForm.pass) {
-                    callback(new Error('两次输入密码不一致!'));
-                } else {
-                    callback();
-                }
-            };
             return {
                 ruleForm: {
-                    uid: '',
-                    name: '',
-                    account: '',
-                    password: '',
-                    sex: '',
-                    email: '',
-                    phone: '',
-                    photo:'',
+                    bname: '',
+                    author: '',
+                    press: '',
+                    notes: '',
+                    typeName: '',
+                    issuingDate: '',
+                    produceDate: '',
+                    picture:'',
+                    inventory:'',
                 },
                 rules: {
-                    name: [{
-                        validator: checkName,
-                        trigger: 'blur'
-                    }],
-                    account: [
-                        { required: true, message: '请输入账号', trigger: 'blur' }
-                    ],
-                    password: [{
-                        validator: validatePass2,
-                        trigger: 'blur'
-                    }],
-                    sex: [
-                        { required: true, message: '请选择性别', trigger: 'blur' }
-                    ],
-                    email: [
-                        { required: true, message: '请输入邮箱', trigger: 'blur' }
-                    ],
-                    phone: [
-                        { required: true, message: '请输入手机号', trigger: 'blur' }
-                    ],
                 },
+                options: [],
             };
         },
         methods:{
@@ -168,7 +210,6 @@
             },
             handleAvatarSuccess(res, file) {
                 this.ruleForm.photo = res; // 假设后端返回的是图片的访问路径
-                console.log(this.ruleForm.photo)
             },
         }
     });
@@ -186,44 +227,63 @@
         // 定义动态表格相关的参数
         table.render({
             elem: '#table_data'
-            ,url:'/listUser'
+            ,url:'/listCommodity'
             ,page: true 	// 开启分页
             ,limit:5
             ,limits:[5,10,20]
             ,cols:[[
                 // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
-                {field: 'uid', title: '用户ID',  fixed: 'left'}
-                ,{field: 'name', title: '用户名', fixed: 'left'}
-                ,{field: 'account', title: '账号',  fixed: 'left'}
-                ,{field: 'password', title: '密码',  fixed: 'left'}
-                ,{field: 'sex', title: '性别', fixed: 'left'}
-                ,{field: 'email', title: '邮箱',  fixed: 'left'}
-                ,{field: 'photo', title: '头像', fixed: 'left'}
-                ,{field: 'phone', title: '手机号',  fixed: 'left'}
+                {field: 'bid', title: '商品ID',  fixed: 'left'}
+                ,{field: 'bname', title: '商品名称', fixed: 'left'}
+                ,{field: 'author', title: '作者',  fixed: 'left'}
+                ,{field: 'press', title: '出版社',  fixed: 'left'}
+                ,{field: 'notes', title: '简介', fixed: 'left'}
+                ,{field: 'typeName', title: '类型',  fixed: 'left'}
+                ,{field: 'issuingDate', title: '发行时间', fixed: 'left'}
+                ,{field: 'produceDate', title: '生产日期',  fixed: 'left'}
+                ,{field: 'picture', title: '图片',  fixed: 'left'}
+                ,{field: 'inventory', title: '库存',  fixed: 'left'}
                 ,{field: 'state', title: '状态',  fixed: 'left',templet:function(row){
                         // console.log(row)
                         if(row.state==1) {
-                            return '正常';
+                            return '售卖中';
                         } else {
-                            return '封禁';
+                            return '下架中';
                         }
                     }}
                 ,{title: '操作', fixed: 'left',templet:function (row){
-                    if (row.state ==='1'){
-                        return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>' +
-                            '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
-                    }
-                    else {
-                        return '<button class="layui-btn layui-btn-xs" lay-event="state">启用</button>' +
-                            '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
-                    }
+                        if (row.state ==='1'){
+                            return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">下架</button>' +
+                                '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                        }
+                        else {
+                            return '<button class="layui-btn layui-btn-xs" lay-event="state">上架</button>' +
+                                '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                        }
                     }}
             ]]
             // 把后台数据转换为layui中table组件所要求的数据格式
             ,parseData:function( res ) {
+                var processedData = res.data.map(function(item) {
+                    return {
+                        author: item.author,
+                        press: item.press,
+                        notes: item.notes,
+                        issuingDate: item.issuingDate,
+                        produceDate: item.produceDate,
+                        picture: item.picture,
+                        inventory: item.inventory,
+                        state: item.state,
+                        typeName: item.types.name,
+                        bname: item.bname,
+                        tid: item.tid,
+                        bid: item.bid
+                        // 其他字段根据需要添加
+                    };
+                })
                 return {
                     "code":res.code==200?0:'-1',
-                    "data":res.data,
+                    "data":processedData,
                     "count":res.count
                 };
             }
@@ -262,7 +322,16 @@
                                     return '封禁';
                                 }
                             }}
-                        ,{title: '操作', fixed: 'left',toolbar:'#toolbarDemo'}
+                        ,{title: '操作', fixed: 'left',templet:function (row){
+                                if (row.state ==='1'){
+                                    return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>' +
+                                        '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                                }
+                                else {
+                                    return '<button class="layui-btn layui-btn-xs" lay-event="state">启用</button>' +
+                                        '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                                }
+                            }}
                     ]]
                     // 把后台数据转换为layui中table组件所要求的数据格式
                     ,parseData:function( res ) {
@@ -287,12 +356,12 @@
                 let state =  obj.data.state == 1 ? '0' : '1';
 
                 // 弹出确认框
-                layer.confirm("您确认更改此用户的状态吗？",function( index ){
+                layer.confirm("您确认更改此商品的状态吗？",function( index ){
                     // 向服务器发起异步请求，实现数据的删除
                     $.ajax({
-                        url:'/updState',
+                        url:'/updCommodityState',
                         method:'get',
-                        data:{'uid':p.uid,'state' : state},
+                        data:{'bId':p.bid,'state' : state},
                         success:function( res ){
                             // 弹出提示框
                             layer.msg("修改成功")
@@ -305,18 +374,20 @@
                 }) ;
 
             } else if(obj.event=='update') {
-                console.log(obj.data.photo)
                 // 第一：获取当前行的数据
                 let p = obj.data ;
                 app.ruleForm = {
-                    name: p.name,
-                    account: p.account,
-                    password: p.password,
-                    sex: p.sex,
-                    email: p.email,
-                    photo: p.photo,
-                    phone: p.phone,
-                    uid: p.uid,
+                    author: p.author,
+                    press: p.press,
+                    notes: p.notes,
+                    issuingDate: p.issuingDate,
+                    produceDate: p.produceDate,
+                    picture: p.picture,
+                    inventory: p.inventory,
+                    typeName: p.typeName,
+                    bname: p.bname,
+                    tid: p.tid,
+                    bid: p.bid
                 };
 
                 // 第二：弹出修改窗体，并把当前行的数据回显在页面中
@@ -331,17 +402,20 @@
                     btn:['修改','取消'],
                     btn1:function( index ) {
                         $.ajax({
-                            url:'/updUser',
+                            url:'/updCommodity',
                             method:'post',
                             data:{
-                                uid:app.ruleForm.uid,
-                                name: app.ruleForm.name,
-                                account: app.ruleForm.account,
-                                password: app.ruleForm.password,
-                                sex: app.ruleForm.sex,
-                                email: app.ruleForm.email,
-                                image: app.ruleForm.photo,
-                                phone: app.ruleForm.phone
+                                author: app.ruleForm.author,
+                                press: app.ruleForm.press,
+                                notes: app.ruleForm.notes,
+                                issuingDate: app.ruleForm.issuingDate,
+                                produceDate: app.ruleForm.produceDate,
+                                picture: app.ruleForm.picture,
+                                inventory: app.ruleForm.inventory,
+                                typeName: app.ruleForm.typeName,
+                                bname: app.ruleForm.bname,
+                                tid: app.ruleForm.tid,
+                                bid: app.ruleForm.bid
                             },
                             success:function( res ){
                                 // 弹出提示框

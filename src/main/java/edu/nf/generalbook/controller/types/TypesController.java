@@ -59,4 +59,11 @@ public class TypesController {
         vo.setCount(list.stream().count());
         return vo;
     }
+    @GetMapping("/typesList")
+    public PageVO<List<Types>> typesList(){
+        List<Types> list = service.typesList();
+        PageVO vo = new PageVO();
+        vo.setData(list);
+        return vo;
+    }
 }
