@@ -116,8 +116,6 @@
             <el-input  v-model="ruleForm.inventory"></el-input>
         </el-form-item>
     </el-form>
-    </el-col>
-    </el-row>
 </div>
 
 <table id="table_data"></table>
@@ -380,10 +378,9 @@
                                 produceDate: app.ruleForm.produceDate,
                                 picture: app.ruleForm.picture,
                                 inventory: app.ruleForm.inventory,
-                                typeName: app.ruleForm.typeName,
                                 bname: app.ruleForm.bname,
                                 tid: app.ruleForm.tid,
-                                bid: app.ruleForm.bid
+                                bid: p.bid
                             },
                             success:function( res ){
                                 // 弹出提示框

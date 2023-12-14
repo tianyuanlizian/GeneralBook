@@ -59,11 +59,11 @@ public class CommodityController {
     }
 
     @PostMapping("/updCommodity")
-    public void updCommodity( Integer bId, String name, String author, String press, String notes, Integer tId, String issuingDate,
+    public void updCommodity( Integer bId, String bname, String author, String press, String notes, Integer tId, String issuingDate,
                               Date produceDate, String picture, Integer inventory){
         Commodity commodity = new Commodity();
         commodity.setBId(bId);
-        commodity.setBName(name);
+        commodity.setBName(bname);
         commodity.setAuthor(author);
         commodity.setPress(press);
         commodity.setNotes(notes);
