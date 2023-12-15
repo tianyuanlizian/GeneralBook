@@ -23,5 +23,5 @@ public class Notice {
     //详细内容
     private String details;
     //发布时间
-    private LocalDate date;
+    private LocalDate releaseDate;
 }

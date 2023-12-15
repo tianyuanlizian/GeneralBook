@@ -7,7 +7,22 @@
         <result property="title" column="title"/>
         <result property="introduce" column="introduce"/>
         <result property="details" column="details"/>
-        <result property="date" column="date"/>
+        <result property="releaseDate" column="release_date"/>
     </resultMap>
+    <insert id="addNotice">
+        insert into notice(title,introduce,details,release_date) values (#{title},#{introduce}, #{details}, #{releaseDate})
+    </insert>
+    <delete id="delNotice">
+        delete from notice where n_id = #{id}
+    </delete>
+    <select id="listNotice" resultMap="NoticeMap">
+        select n_id,title,introduce,details,release_date from notice
+    </select>
+    <select id="count" >
+        select count(*) from notice
+    </select>
+    <select id="noticeList" resultMap="NoticeMap">
+        select n_id,title,introduce,details,release_date from notice
+    </select>
 
 </mapper>

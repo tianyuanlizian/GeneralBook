@@ -35,5 +35,5 @@ public class NoticeDoc {
     private String details;
     //发布时间
     @Field(type = FieldType.Keyword)
-    private LocalDate date;
+    private LocalDate releaseDate;
 }

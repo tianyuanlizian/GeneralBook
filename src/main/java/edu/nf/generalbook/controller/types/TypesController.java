@@ -51,7 +51,7 @@ public class TypesController {
     }
 
     @GetMapping("/selectTypes")
-    public PageVO<List<UserDoc>> selectUser(String param, Integer page, Integer limit){
+    public PageVO<List<Types>> selectTypes(String param, Integer page, Integer limit){
         String[] fields = {"name"};
         List<TypesDoc> list = esService.boolSearch(TypesDoc.class, param, fields);
         PageVO vo = new PageVO();

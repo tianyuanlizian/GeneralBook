@@ -12,7 +12,7 @@ import java.util.List;
 public interface NoticeDao {
     /**
      * 发布通知
-     * @param name
+     * @param notice
      */
     void addNotice(Notice notice);
 
