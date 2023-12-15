@@ -61,46 +61,68 @@
 <div id="app" style="display: none">
 
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">中文版</label>
-            <div class="layui-input-inline">
-                <input  type="text" class="layui-input" id="ID-laydate-demo" placeholder="yyyy-MM-dd">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                商品名称：
+            </div>
+            <input type="text" v-model="ruleForm.bname" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                作者：
+            </div>
+            <input type="text" v-model="ruleForm.author" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                出版社：
+            </div>
+            <input type="text" v-model="ruleForm.press"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                简介：
+            </div>
+            <input type="text" v-model="ruleForm.notes" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                商品类型：
+            </div>
+            <div>
+                <select  style="width: 100px;height: 35px;border: #c9c5c5 1px solid" v-model="ruleForm.tid" id="dataSelect" >
+                    <option v-for="item in typeData" :key="item.tid" :value="item.tid">{{ item.name }}</option>
+                </select>
             </div>
         </div>
     </div>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="商品名称：" prop="bname">
-            <el-input v-model="ruleForm.bname"></el-input>
-        </el-form-item>
-        <el-form-item label="作者：" prop="author">
-            <el-input v-model="ruleForm.author"></el-input>
-        </el-form-item>
-        <el-form-item label="出版社：" prop="press">
-            <el-input  v-model="ruleForm.press"></el-input>
-        </el-form-item>
-        <el-form-item label="简介：" prop="notes">
-            <el-input  v-model="ruleForm.notes"></el-input>
-        </el-form-item>
-        <el-form-item label="类型：" prop="typeName">
-            <el-select v-model="ruleForm.typeName" filterable placeholder="请选择">
-                <el-option
-                        v-for="type in options"
-                        :key="type.tid"
-                        :label="type.name"
-                        :value="type.tid">
-                </el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="发行时间：" prop="issuingDate">
-            <el-input  v-model="ruleForm.issuingDate"></el-input>
-        </el-form-item>
-        <el-form-item label="生产日期：" prop="produceDate">
-            <el-date-picker
-                    v-model="ruleForm.produceDate"
-                    type="date"
-                    placeholder="选择日期">
-            </el-date-picker>
-        </el-form-item>
+
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                发行日期：
+            </div>
+            <input type="text" v-model="ruleForm.issuingDate" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">生产日期：</label>
+            <div class="layui-input-inline">
+                <input  type="text" class="layui-input" :value="ruleForm.produceDate" id="ID-laydate-demo" placeholder="yyyy-MM-dd">
+            </div>
+        </div>
+    </div>
+
+    <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="图片：">
             <el-upload
                     class="avatar-uploader"
@@ -112,10 +134,17 @@
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
         </el-form-item>
-        <el-form-item label="库存：" prop="inventory">
-            <el-input  v-model="ruleForm.inventory"></el-input>
-        </el-form-item>
     </el-form>
+
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                库存：
+            </div>
+            <input type="text" v-model="ruleForm.inventory" class="layui-input">
+        </div>
+    </div>
+
 </div>
 
 <table id="table_data"></table>
@@ -125,28 +154,8 @@
 </body>
 </html>
 <script>
-    layui.use(function(){
-        var laydate = layui.laydate;
-        // 渲染
-        laydate.render({
-            elem: '#ID-laydate-demo'
-        });
-    });
-</script>
-<script>
     var app = new Vue({
         el: '#app',
-        mounted(){
-            $.ajax({
-                url:'/typesList',
-                method:'GET',
-                success:function( res ){
-
-                    this.options = res.data;
-                    console.log(this.options)
-                }
-            }) ;
-        },
         data() {
             return {
                 ruleForm: {
@@ -155,6 +164,7 @@
                     press: '',
                     notes: '',
                     typeName: '',
+                    tid:'',
                     issuingDate: '',
                     produceDate: '',
                     picture:'',
@@ -162,8 +172,20 @@
                 },
                 rules: {
                 },
-                options: [],
+                typeData: [],
             };
+        },
+        mounted() {
+            let that = this;
+            $.ajax({
+                url:'/typesList',
+                method:'GET',
+                success:function( res ){
+
+                    that.typeData = res.data;
+                    console.log(that.typeData)
+                }
+            }) ;
         },
         methods:{
             beforeAvatarUpload(file) {
@@ -175,20 +197,24 @@
                 return isLt2M;
             },
             handleAvatarSuccess(res, file) {
-                this.ruleForm.photo = res; // 假设后端返回的是图片的访问路径
+                this.ruleForm.picture = res; // 假设后端返回的是图片的访问路径
             },
         }
     });
 
     // 加载 table 模块
-    layui.use( ['jquery', 'layer', 'form','table'],function(){
+    layui.use( ['jquery', 'layer', 'form','table','laydate'],function(){
 
         // 实例化动态表格的实例对象
+        let laydate = layui.laydate;
         let $ = layui.jquery;
         let table = layui.table;
         let layer = layui.layer;
         let form = layui.form;
 
+        laydate.render({
+            elem: '#ID-laydate-demo'
+        });
 
         // 定义动态表格相关的参数
         table.render({
@@ -232,18 +258,18 @@
             ,parseData:function( res ) {
                 var processedData = res.data.map(function(item) {
                     return {
+                        bid: item.bid,
+                        bname: item.bname,
                         author: item.author,
                         press: item.press,
                         notes: item.notes,
+                        typeName: item.types.name,
                         issuingDate: item.issuingDate,
                         produceDate: item.produceDate,
                         picture: item.picture,
                         inventory: item.inventory,
                         state: item.state,
-                        typeName: item.types.name,
-                        bname: item.bname,
                         tid: item.tid,
-                        bid: item.bid
                         // 其他字段根据需要添加
                     };
                 })
@@ -342,18 +368,19 @@
             } else if(obj.event=='update') {
                 // 第一：获取当前行的数据
                 let p = obj.data ;
+                console.log(p) ;
                 app.ruleForm = {
+                    bid: p.bid,
+                    bname: p.bname,
                     author: p.author,
                     press: p.press,
                     notes: p.notes,
+                    typeName: p.typeName,
                     issuingDate: p.issuingDate,
                     produceDate: p.produceDate,
                     picture: p.picture,
                     inventory: p.inventory,
-                    typeName: p.typeName,
-                    bname: p.bname,
                     tid: p.tid,
-                    bid: p.bid
                 };
 
                 // 第二：弹出修改窗体，并把当前行的数据回显在页面中
@@ -369,18 +396,19 @@
                     btn1:function( index ) {
                         $.ajax({
                             url:'/updCommodity',
-                            method:'post',
+                            method:'POST',
                             data:{
+                                bId: p.bid,
+                                bname: app.ruleForm.bname,
                                 author: app.ruleForm.author,
                                 press: app.ruleForm.press,
                                 notes: app.ruleForm.notes,
+                                tId: app.ruleForm.tid,
                                 issuingDate: app.ruleForm.issuingDate,
-                                produceDate: app.ruleForm.produceDate,
+                                produceDate: $('#ID-laydate-demo').val(),
                                 picture: app.ruleForm.picture,
                                 inventory: app.ruleForm.inventory,
-                                bname: app.ruleForm.bname,
-                                tid: app.ruleForm.tid,
-                                bid: p.bid
+
                             },
                             success:function( res ){
                                 // 弹出提示框
