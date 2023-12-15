@@ -55,6 +55,9 @@
     <div class="layui-inline">
         <input type="button" id="selectBtn" class="layui-btn" data-type="reload" value="查询">
     </div>
+    <div class="layui-inline">
+        <input type="button" id="addBtn" class="layui-btn" data-type="reload" value="添加">
+    </div>
 </form>
 
 <!--修改表单开始-->
@@ -98,7 +101,7 @@
                 商品类型：
             </div>
             <div>
-                <select  style="width: 100px;height: 35px;border: #c9c5c5 1px solid" v-model="ruleForm.tid" id="dataSelect" >
+                <select  style="width: 100px;height: 35px;border: #c9c5c5 1px solid" v-model="ruleForm.tid">
                     <option v-for="item in typeData" :key="item.tid" :value="item.tid">{{ item.name }}</option>
                 </select>
             </div>
@@ -146,6 +149,95 @@
     </div>
 
 </div>
+<!--添加表单开始-->
+<div id="ins" style="display: none">
+
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                商品名称：
+            </div>
+            <input type="text" v-model="ins.bname" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                作者：
+            </div>
+            <input type="text" v-model="ins.author" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                出版社：
+            </div>
+            <input type="text" v-model="ins.press"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                简介：
+            </div>
+            <input type="text" v-model="ins.notes" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                商品类型：
+            </div>
+            <div>
+                <select  style="width: 100px;height: 35px;border: #c9c5c5 1px solid" v-model="ins.tid">
+                    <option v-for="item in typeData" :key="item.tid" :value="item.tid">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                发行日期：
+            </div>
+            <input type="text" v-model="ins.issuingDate" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">生产日期：</label>
+            <div class="layui-input-inline">
+                <input  type="text" class="layui-input"  id="ins-laydate-demo" placeholder="yyyy-MM-dd">
+            </div>
+        </div>
+    </div>
+
+    <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="图片：">
+            <el-upload
+                    class="avatar-uploader"
+                    action="/upload"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                <img v-if="ins.picture" :src="ins.picture"  class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+        </el-form-item>
+    </el-form>
+
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                库存：
+            </div>
+            <input type="text" v-model="ins.inventory" class="layui-input">
+        </div>
+    </div>
+
+</div>
 
 <table id="table_data"></table>
 
@@ -154,6 +246,7 @@
 </body>
 </html>
 <script>
+    //修改功能使用的vue
     var app = new Vue({
         el: '#app',
         data() {
@@ -170,8 +263,6 @@
                     picture:'',
                     inventory:'',
                 },
-                rules: {
-                },
                 typeData: [],
             };
         },
@@ -181,7 +272,6 @@
                 url:'/typesList',
                 method:'GET',
                 success:function( res ){
-
                     that.typeData = res.data;
                     console.log(that.typeData)
                 }
@@ -202,6 +292,52 @@
         }
     });
 
+    //添加功能使用的vue
+    var add = new Vue({
+        el: '#ins',
+        data() {
+            return {
+                ins: {
+                    bname: '',
+                    author: '',
+                    press: '',
+                    notes: '',
+                    typeName: '',
+                    tid:'',
+                    issuingDate: '',
+                    produceDate: '',
+                    picture:'',
+                    inventory:'',
+                },
+                typeData: [],
+            };
+        },
+        mounted() {
+            let that = this;
+            $.ajax({
+                url:'/typesList',
+                method:'GET',
+                success:function( res ){
+                    that.typeData = res.data;
+                    console.log(that.typeData)
+                }
+            }) ;
+        },
+        methods:{
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 5;
+
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 5MB!');
+                }
+                return isLt2M;
+            },
+            handleAvatarSuccess(res, file) {
+                this.ins.picture = res; // 假设后端返回的是图片的访问路径
+            },
+        }
+    });
+
     // 加载 table 模块
     layui.use( ['jquery', 'layer', 'form','table','laydate'],function(){
 
@@ -211,10 +347,14 @@
         let table = layui.table;
         let layer = layui.layer;
         let form = layui.form;
-
+        //渲染修改功能日期组件
         laydate.render({
-            elem: '#ID-laydate-demo'
+            elem: '#ID-laydate-demo',
         });
+        //渲染添加功能日期组件
+        laydate.render({
+            elem: '#ins-laydate-demo'
+        })
 
         // 定义动态表格相关的参数
         table.render({
@@ -298,44 +438,63 @@
                     ,limits:[5,10,20]
                     ,cols:[[
                         // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
-                        {field: 'uid', title: '用户ID',  fixed: 'left'}
-                        ,{field: 'name', title: '用户名', fixed: 'left'}
-                        ,{field: 'account', title: '账号',  fixed: 'left'}
-                        ,{field: 'password', title: '密码',  fixed: 'left'}
-                        ,{field: 'sex', title: '性别', fixed: 'left'}
-                        ,{field: 'email', title: '邮箱',  fixed: 'left'}
-                        ,{field: 'photo', title: '头像', fixed: 'left'}
-                        ,{field: 'phone', title: '手机号',  fixed: 'left'}
+                        {field: 'bid', title: '商品ID',  fixed: 'left'}
+                        ,{field: 'bname', title: '商品名称', fixed: 'left'}
+                        ,{field: 'author', title: '作者',  fixed: 'left'}
+                        ,{field: 'press', title: '出版社',  fixed: 'left'}
+                        ,{field: 'notes', title: '简介', fixed: 'left'}
+                        ,{field: 'typeName', title: '类型',  fixed: 'left'}
+                        ,{field: 'issuingDate', title: '发行时间', fixed: 'left'}
+                        ,{field: 'produceDate', title: '生产日期',  fixed: 'left'}
+                        ,{field: 'picture', title: '图片',  fixed: 'left'}
+                        ,{field: 'inventory', title: '库存',  fixed: 'left'}
                         ,{field: 'state', title: '状态',  fixed: 'left',templet:function(row){
                                 // console.log(row)
                                 if(row.state==1) {
-                                    return '正常';
+                                    return '售卖中';
                                 } else {
-                                    return '封禁';
+                                    return '下架中';
                                 }
                             }}
                         ,{title: '操作', fixed: 'left',templet:function (row){
                                 if (row.state ==='1'){
-                                    return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>' +
+                                    return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">下架</button>' +
                                         '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
                                 }
                                 else {
-                                    return '<button class="layui-btn layui-btn-xs" lay-event="state">启用</button>' +
+                                    return '<button class="layui-btn layui-btn-xs" lay-event="state">上架</button>' +
                                         '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
                                 }
                             }}
                     ]]
                     // 把后台数据转换为layui中table组件所要求的数据格式
                     ,parseData:function( res ) {
+                        var processedData = res.data.map(function(item) {
+                            return {
+                                bid: item.bid,
+                                bname: item.bname,
+                                author: item.author,
+                                press: item.press,
+                                notes: item.notes,
+                                typeName: item.types.name,
+                                issuingDate: item.issuingDate,
+                                produceDate: item.produceDate,
+                                picture: item.picture,
+                                inventory: item.inventory,
+                                state: item.state,
+                                tid: item.tid,
+                                // 其他字段根据需要添加
+                            };
+                        })
                         return {
                             "code":res.code==200?0:'-1',
-                            "data":res.data,
+                            "data":processedData,
                             "count":res.count
                         };
                     }
                 });
             }else {
-                location.href = 'user.html';
+                location.href = 'commodity.html';
             }
         });
 
@@ -423,5 +582,69 @@
                 }) ;
             }
         });
+
+        //清空添加表单数据方法
+        let deladd = function (){
+            add.ins={
+                bname: '',
+                author: '',
+                press: '',
+                notes: '',
+                typeName: '',
+                tid:'',
+                issuingDate: '',
+                produceDate: '',
+                picture:'',
+                inventory:'',
+            }
+            document.getElementById('ins-laydate-demo').value = '';
+        }
+
+        // 实现添加操作
+        $("#addBtn").click(function () {
+            layer.open({
+                type: 1,
+                title: '添加商品',
+                area: ['50%', '35em'],
+                resize: false,
+                content: $("#ins"),
+                btn: ['添加', '取消'],
+                btn1: function (index) {
+                    $.ajax({
+                        url: '/addCommodity',
+                        method: 'post',
+                        data: {
+                            bname: add.ins.bname,
+                            author: add.ins.author,
+                            press: add.ins.press,
+                            notes: add.ins.notes,
+                            tId: add.ins.tid,
+                            issuingDate:add.ins.issuingDate,
+                            produceDate: $('#ins-laydate-demo').val(),
+                            picture: add.ins.picture,
+                            inventory: add.ins.inventory,
+                        },
+                        success: function (res) {
+                            // 弹出提示框
+                            layer.msg("添加成功")
+                            // 根据弹出层的索引，关闭弹出确认框
+                            layer.close(index);
+                            //清空添加表单数据
+                            deladd()
+                            // 重新加载表格数据
+                            table.reload('table_data', {page: {curr: 1}});
+                        }
+                    });
+                },
+                btn2: function (){
+                    //清空添加表单数据
+                  deladd()
+                },
+                cancel: function (){
+                    //清空添加表单数据
+                  deladd()
+                }
+            });
+        })
     }) ;
 </script>

@@ -173,7 +173,7 @@
                     $.ajax({
                         url: '/addTypes',
                         method: 'post',
-                        data: {param: app.ruleForm.name,},
+                        data: {name: app.ruleForm.name,},
                         success: function (res) {
                             // 弹出提示框
                             layer.msg("添加成功")
