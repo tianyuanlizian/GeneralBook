@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class CommodityController {
     }
 
     @PostMapping("/addCommodity")
-    public void addCommodity(String name, String author, String press, String notes, Integer tId, String issuingDate, Date produceDate,
+    public void addCommodity(String name, String author, String press, String notes, Integer tId, String issuingDate, String produceDate,
                              String picture, Integer inventory){
         Commodity commodity = new Commodity();
         commodity.setBName(name);
@@ -51,7 +52,7 @@ public class CommodityController {
         commodity.setNotes(notes);
         commodity.setTId(tId);
         commodity.setIssuingDate(issuingDate);
-        commodity.setProduceDate(produceDate);
+        commodity.setProduceDate(LocalDate.parse(produceDate));
         commodity.setPicture(picture);
         commodity.setInventory(inventory);
         commodity.setState("1");
@@ -69,7 +70,7 @@ public class CommodityController {
         commodity.setNotes(notes);
         commodity.setTId(tId);
         commodity.setIssuingDate(issuingDate);
-        commodity.setProduceDate(java.sql.Date.valueOf(produceDate));
+        commodity.setProduceDate(LocalDate.parse(produceDate));
         commodity.setPicture(picture);
         commodity.setInventory(inventory);
         commodity.setState("1");

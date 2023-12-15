@@ -37,7 +37,7 @@ public class CommodityTest {
         commodity.setNotes("这是骚鹏特饮");
         commodity.setTId(2);
         commodity.setIssuingDate("2020-2-20");
-        commodity.setProduceDate(java.sql.Date.valueOf("2020-2-20"));
+        commodity.setProduceDate(LocalDate.parse("2020-2-20"));
         commodity.setPicture("egdfjs");
         commodity.setInventory(110);
         commodity.setState("1");
@@ -54,7 +54,7 @@ public class CommodityTest {
         commodity.setNotes("这是骚bie特饮");
         commodity.setTId(2);
         commodity.setIssuingDate("2020-2-20");
-        commodity.setProduceDate(new Date("2020-2-20"));
+        commodity.setProduceDate(LocalDate.parse("2020-2-20"));
         commodity.setPicture("http");
         commodity.setInventory(110);
         commodity.setState("1");

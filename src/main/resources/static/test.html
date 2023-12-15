@@ -117,7 +117,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">生产日期：</label>
             <div class="layui-input-inline">
-                <input  type="text" class="layui-input" value='2018-08-18' id="ID-laydate-demo" placeholder="yyyy-MM-dd">
+                <input  type="text" class="layui-input" :value="ruleForm.produceDate" id="ID-laydate-demo" placeholder="yyyy-MM-dd">
             </div>
         </div>
     </div>
@@ -405,7 +405,7 @@
                                 notes: app.ruleForm.notes,
                                 tId: app.ruleForm.tid,
                                 issuingDate: app.ruleForm.issuingDate,
-                                produceDate: app.ruleForm.produceDate,
+                                produceDate: $('#ID-laydate-demo').val(),
                                 picture: app.ruleForm.picture,
                                 inventory: app.ruleForm.inventory,
 

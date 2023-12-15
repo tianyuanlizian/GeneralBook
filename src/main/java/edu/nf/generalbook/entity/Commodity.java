@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -29,7 +30,7 @@ public class Commodity {
     //发行年份
     private String issuingDate;
     //生产日期
-    private Date produceDate;
+    private LocalDate produceDate;
     //图片
     private String picture;
     //库存
