@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Mapping;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -34,7 +35,7 @@ public class CommodityDoc {
     @Field(type = FieldType.Keyword)
     private String press;
     //书籍简介
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String notes;
     //类型
     @Field(type = FieldType.Keyword)
@@ -44,7 +45,7 @@ public class CommodityDoc {
     private String issuingDate;
     //生产日期
     @Field(type = FieldType.Keyword)
-    private Date produceDate;
+    private LocalDate produceDate;
     //图片
     @Field(type = FieldType.Keyword)
     private String picture;
