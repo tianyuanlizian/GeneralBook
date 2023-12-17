@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>类型列表</title>
+    <title>通知管理</title>
     <!-- vue -->
     <script src="js/vue.js"></script>
     <!-- jquery -->
@@ -30,16 +30,31 @@
         <input type="button" id="selectBtn" class="layui-btn" data-type="reload" value="查询">
     </div>
     <div class="layui-inline">
-        <input type="button" id="addBtn" class="layui-btn" data-type="reload" value="添加">
+        <input type="button" id="addBtn" class="layui-btn" data-type="reload" value="发布新通知">
     </div>
 </form>
 
 <!-- 添加表单开始 -->
 <div id="app" style="display: none">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="类型名称：" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+
+        <el-form-item label="标题：" prop="title">
+            <el-input v-model="ruleForm.title"></el-input>
         </el-form-item>
+        <el-form-item label="简介：" prop="introduce">
+            <el-input v-model="ruleForm.introduce"></el-input>
+        </el-form-item>
+        <el-form-item label="详细内容：" prop="details">
+            <el-input v-model="ruleForm.details"></el-input>
+        </el-form-item>
+        <div class="layui-form-item">
+            <div class="layui-input-group">
+                <div class="layui-input-split layui-input-prefix">
+                    发行日期：
+                </div>
+                <input type="text" v-model="ruleForm.releaseDate" class="layui-input">
+            </div>
+        </div>
 
     </el-form>
 
@@ -57,7 +72,11 @@
         data() {
             return {
                 ruleForm: {
-                    name: '',
+                    nid: '',
+                    title:'',
+                    introduce:'',
+                    details:'',
+                    releaseDate:''
                 },
             }
         }
@@ -75,16 +94,19 @@
         // 定义动态表格相关的参数
         table.render({
             elem: '#table_data'
-            ,url:'/listTypes'
+            ,url:'/listNotice'
             ,page: true 	// 开启分页
             ,limit:5
             ,limits:[5,10,20]
             ,cols:[[
                 // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
-                {field: 'tid', title: '类型ID',  fixed: 'left'}
-                ,{field: 'name', title: '名称', fixed: 'left'}
+                {field: 'nid', title: '通知ID',  fixed: 'left'}
+                ,{field: 'title', title: '标题', fixed: 'left'}
+                ,{field: 'introduce', title: '简介', fixed: 'left'}
+                ,{field: 'details', title: '详细内容', fixed: 'left'}
+                ,{field: 'releaseDate', title: '发布时间', fixed: 'left'}
                 ,{title: '操作', fixed: 'left',templet:function (){
-                            return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</button>'
+                        return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</button>'
                     }}
             ]]
             // 把后台数据转换为layui中table组件所要求的数据格式
@@ -130,7 +152,7 @@
                     }
                 });
             }else {
-                location.href = 'types.html';
+                location.href = 'notice.html';
             }
         });
 
@@ -140,12 +162,12 @@
             if(obj.event=='delete') {
                 let p = obj.data ;
                 // 弹出确认框
-                layer.confirm("您确认删除此类型吗？",function( index ){
+                layer.confirm("您确认删除此通知吗？",function( index ){
                     // 向服务器发起异步请求，实现数据的删除
                     $.ajax({
-                        url:'/delTypes',
+                        url:'/delNotice',
                         method:'POST',
-                        data:{'tid':p.tid},
+                        data:{'nid':p.nid},
                         success:function( res ){
                             // 弹出提示框
                             layer.msg("删除成功")
@@ -162,31 +184,41 @@
         //清空添加表单数据方法
         let deladd = function (){
             app.ruleForm={
-                name: '',
+                nid: '',
+                title:'',
+                introduce:'',
+                details:'',
+                releaseDate:''
             }
+            document.getElementById('ins-laydate-demo').value = '';
         }
 
         // 实现添加类型操作
         $("#addBtn").click(function () {
             layer.open({
                 type: 1,
-                title: '添加商品',
+                title: '发布新通知',
                 area: ['50%', '35em'],
                 resize: false,
                 content: $("#app"),
                 btn: ['添加', '取消'],
                 btn1: function (index) {
                     $.ajax({
-                        url: '/addTypes',
+                        url: '/addNotice',
                         method: 'post',
-                        data: {name: app.ruleForm.name,},
+                        data: {
+                            title:app.ruleForm.title,
+                            introduce:app.ruleForm.introduce,
+                            details:app.ruleForm.details,
+                            releaseDate:app.ruleForm.releaseDate
+                        },
                         success: function (res) {
                             // 弹出提示框
                             layer.msg("添加成功")
                             // 根据弹出层的索引，关闭弹出确认框
                             layer.close(index);
-                                // 重新加载表格数据
-                                table.reload('table_data', {page: {curr: 1}});
+                            // 重新加载表格数据
+                            table.reload('table_data', {page: {curr: 1}});
                         }
                     });
                 },

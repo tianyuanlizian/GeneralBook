@@ -1,11 +1,9 @@
 package edu.nf.generalbook.notice;
 
 import edu.nf.generalbook.dao.NoticeDao;
-import edu.nf.generalbook.dao.TypesDao;
 import edu.nf.generalbook.entity.Notice;
 import edu.nf.generalbook.service.es.EsService;
 import edu.nf.generalbook.service.notice.NoticeService;
-import edu.nf.generalbook.service.types.TypesService;
 import edu.nf.generalbook.vo.PageVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
