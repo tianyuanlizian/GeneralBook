@@ -38,21 +38,37 @@
 <div id="app" style="display: none">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
-        <el-form-item label="标题：" prop="title">
-            <el-input v-model="ruleForm.title"></el-input>
-        </el-form-item>
-        <el-form-item label="简介：" prop="introduce">
-            <el-input v-model="ruleForm.introduce"></el-input>
-        </el-form-item>
-        <el-form-item label="详细内容：" prop="details">
-            <el-input v-model="ruleForm.details"></el-input>
-        </el-form-item>
         <div class="layui-form-item">
             <div class="layui-input-group">
                 <div class="layui-input-split layui-input-prefix">
-                    发行日期：
+                    标题：
                 </div>
-                <input type="text" v-model="ruleForm.releaseDate" class="layui-input">
+                <input type="text" v-model="ruleForm.title" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-group">
+                <div class="layui-input-split layui-input-prefix">
+                    简介：
+                </div>
+                <input type="text" v-model="ruleForm.introduce" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-group">
+                <div class="layui-input-split layui-input-prefix">
+                    详细内容：
+                </div>
+                <input type="text" v-model="ruleForm.details" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">发布日期：</label>
+                <div class="layui-input-inline">
+                    <input  type="text" class="layui-input"  id="ins-laydate-demo" placeholder="yyyy-MM-dd">
+                </div>
             </div>
         </div>
 
@@ -82,14 +98,19 @@
         }
     });
     // 加载 table 模块
-    layui.use( ['jquery', 'layer', 'form','table'],function(){
+    layui.use( ['jquery', 'layer', 'form','table','laydate'],function(){
 
         // 实例化动态表格的实例对象
+        let laydate = layui.laydate;
         let $ = layui.jquery;
         let table = layui.table;
         let layer = layui.layer;
         let form = layui.form;
 
+        //渲染添加功能日期组件
+        laydate.render({
+            elem: '#ins-laydate-demo'
+        })
 
         // 定义动态表格相关的参数
         table.render({
@@ -210,13 +231,15 @@
                             title:app.ruleForm.title,
                             introduce:app.ruleForm.introduce,
                             details:app.ruleForm.details,
-                            releaseDate:app.ruleForm.releaseDate
+                            releaseDate:$('#ins-laydate-demo').val()
                         },
                         success: function (res) {
                             // 弹出提示框
                             layer.msg("添加成功")
                             // 根据弹出层的索引，关闭弹出确认框
                             layer.close(index);
+                            //清空添加表单数据
+                            deladd()
                             // 重新加载表格数据
                             table.reload('table_data', {page: {curr: 1}});
                         }

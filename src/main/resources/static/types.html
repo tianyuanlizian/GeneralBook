@@ -37,10 +37,15 @@
 <!-- 添加表单开始 -->
 <div id="app" style="display: none">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="类型名称：" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
-        </el-form-item>
 
+        <div class="layui-form-item">
+            <div class="layui-input-group">
+                <div class="layui-input-split layui-input-prefix">
+                    类型名称：
+                </div>
+                <input type="text" v-model="ruleForm.name" class="layui-input">
+            </div>
+        </div>
     </el-form>
 
 </div>
