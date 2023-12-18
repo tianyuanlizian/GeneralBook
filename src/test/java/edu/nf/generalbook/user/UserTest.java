@@ -1,4 +1,4 @@
-package edu.nf.generalbook.usertest;
+package edu.nf.generalbook.user;
 
 import edu.nf.generalbook.dao.UserDao;
 import edu.nf.generalbook.doc.UserDoc;

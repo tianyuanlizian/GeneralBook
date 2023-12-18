@@ -1,4 +1,4 @@
-package edu.nf.generalbook.CommodityTest;
+package edu.nf.generalbook.Commodity;
 
 import edu.nf.generalbook.dao.CommodityDao;
 import edu.nf.generalbook.entity.Commodity;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 /**
