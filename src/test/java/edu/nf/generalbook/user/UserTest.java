@@ -31,7 +31,7 @@ public class UserTest {
     @Test
     void addTest(){
         User user = new User();
-        user.setName("测试");
+        user.setUName("测试");
         user.setAccount("12123124");
         user.setPassword("123456");
         user.setSex("男");
@@ -46,7 +46,7 @@ public class UserTest {
     void updTest(){
         User user = new User();
         user.setUId(1);
-        user.setName("骚别");
+        user.setUName("骚别");
         user.setAccount("12123124");
         user.setPassword("qin123");
         user.setSex("男");
@@ -99,7 +99,7 @@ public class UserTest {
     void createDocTest(){
         List<User> list = dao.userList();
         list.forEach(user -> {
-            UserDoc doc = new UserDoc(user.getUId(), user.getName(), user.getAccount(), user.getPassword(), user.getSex(), user.getEmail(), user.getPhoto(), user.getPhone(), user.getState());
+            UserDoc doc = new UserDoc(user.getUId(), user.getUName(), user.getAccount(), user.getPassword(), user.getSex(), user.getEmail(), user.getPhoto(), user.getPhone(), user.getState());
             esService.createDoc(doc);
         });
     }
@@ -112,7 +112,7 @@ public class UserTest {
         String[] fields = {"name", "account", "email", "phone"};
         List<UserDoc> list = esService.boolSearch(UserDoc.class, "测试", fields);
         list.forEach(userDoc ->{
-            log.info(userDoc.getName());
+            log.info(userDoc.getUName());
             log.info(userDoc.getAccount());
             log.info(userDoc.getPhone());
         });

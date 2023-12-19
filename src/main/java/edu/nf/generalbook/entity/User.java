@@ -20,7 +20,7 @@ public class User {
     //编号
     private Integer uId;
     //用户名称
-    private String name;
+    private String uName;
     //用户账号
     private String account;
     //密码

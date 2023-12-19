@@ -36,7 +36,7 @@ public class OrderGoods {
     //用户id
     private Integer uId;
     //购买时间
-    private Date date;
+    private Date createDate;
     //状态
     private String state;
 

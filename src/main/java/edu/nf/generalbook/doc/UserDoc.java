@@ -24,7 +24,7 @@ public class UserDoc {
         private Integer uId;
         //用户名称
         @Field(type = FieldType.Text, analyzer = "ik_max_word")
-        private String name;
+        private String uName;
         //用户账号
         @Field(type = FieldType.Keyword)
         private String account;

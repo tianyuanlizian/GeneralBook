@@ -4,7 +4,7 @@
 <mapper namespace="edu.nf.generalbook.dao.UserDao">
     <resultMap id="userMap" type="edu.nf.generalbook.entity.User">
         <id property="uId" column="u_id"/>
-        <result property="name" column="name"/>
+        <result property="uName" column="u_name"/>
         <result property="account" column="account"/>
         <result property="password" column="password"/>
         <result property="sex" column="sex"/>
@@ -16,25 +16,25 @@
 
 
     <insert id="addUser">
-        insert into user(name,account,password,sex,email,photo,phone,state) values (#{name},#{account},#{password},#{sex},#{email},#{photo},#{phone},#{state})
+        insert into user(u_name,account,password,sex,email,photo,phone,state) values (#{uName},#{account},#{password},#{sex},#{email},#{photo},#{phone},#{state})
     </insert>
     <update id="updUser">
-        update user set name = #{name},account = #{account} ,password = #{password},sex = #{sex},email = #{email},photo = #{photo},phone = #{phone} where u_id = #{uId}
+        update user set u_name = #{uName},account = #{account} ,password = #{password},sex = #{sex},email = #{email},photo = #{photo},phone = #{phone} where u_id = #{uId}
     </update>
     <update id="updUserState">
         update user set state = #{state} where u_id = #{uId}
     </update>
     <select id="listUser" resultMap="userMap">
-        select u_id,name,account,password,sex,email,photo,phone,state from user
+        select u_id,u_name,account,password,sex,email,photo,phone,state from user
     </select>
     <select id="count">
         select count(*) from user
     </select>
     <select id="loginUser" resultMap="userMap">
-        select u_id,name,account,password,sex,email,photo,phone,state from user where account = #{account}
+        select u_id,u_name,account,password,sex,email,photo,phone,state from user where account = #{account}
     </select>
     <select id="userList" resultMap="userMap">
-        select u_id,name,account,password,sex,email,photo,phone,state from user
+        select u_id,u_name,account,password,sex,email,photo,phone,state from user
     </select>
 
 </mapper>

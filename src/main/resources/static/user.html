@@ -61,7 +61,7 @@
 <div id="app" style="display: none">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="用户名：" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+            <el-input v-model="ruleForm.uname"></el-input>
         </el-form-item>
         <el-form-item label="账号：" prop="account">
             <el-input v-model="ruleForm.account"></el-input>
@@ -121,7 +121,7 @@
             return {
                 ruleForm: {
                     uid: '',
-                    name: '',
+                    uname: '',
                     account: '',
                     password: '',
                     sex: '',
@@ -130,7 +130,7 @@
                     photo:'',
                 },
                 rules: {
-                    name: [{
+                    uname: [{
                         validator: checkName,
                         trigger: 'blur'
                     }],
@@ -188,7 +188,7 @@
             ,cols:[[
                 // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
                 {field: 'uid', title: '用户ID',  fixed: 'left'}
-                ,{field: 'name', title: '用户名', fixed: 'left'}
+                ,{field: 'uname', title: '用户名', fixed: 'left'}
                 ,{field: 'account', title: '账号',  fixed: 'left'}
                 ,{field: 'password', title: '密码',  fixed: 'left'}
                 ,{field: 'sex', title: '性别', fixed: 'left'}
@@ -242,7 +242,7 @@
                     ,cols:[[
                         // {field: '实体对象的属性名称', title: '列头显示内容', width:宽, sort: 是否排序, fixed: '定位'}
                         {field: 'uid', title: '用户ID',  fixed: 'left'}
-                        ,{field: 'name', title: '用户名', fixed: 'left'}
+                        ,{field: 'uname', title: '用户名', fixed: 'left'}
                         ,{field: 'account', title: '账号',  fixed: 'left'}
                         ,{field: 'password', title: '密码',  fixed: 'left'}
                         ,{field: 'sex', title: '性别', fixed: 'left'}
@@ -313,7 +313,7 @@
                 // 第一：获取当前行的数据
                 let p = obj.data ;
                 app.ruleForm = {
-                    name: p.name,
+                    uname: p.uname,
                     account: p.account,
                     password: p.password,
                     sex: p.sex,
@@ -339,7 +339,7 @@
                             method:'post',
                             data:{
                                 uid:app.ruleForm.uid,
-                                name: app.ruleForm.name,
+                                uname: app.ruleForm.uname,
                                 account: app.ruleForm.account,
                                 password: app.ruleForm.password,
                                 sex: app.ruleForm.sex,

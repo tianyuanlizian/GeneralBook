@@ -41,9 +41,9 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public void addUser(String name,String account, String password, String sex, String email, String image, String phone){
+    public void addUser(String uname,String account, String password, String sex, String email, String image, String phone){
         User user = new User();
-        user.setName(name);
+        user.setUName(uname);
         user.setAccount(account);
         user.setPassword(password);
         user.setSex(sex);
@@ -61,10 +61,10 @@ public class UserController {
     }
 
     @PostMapping("/updUser")
-    public void updUser(Integer uid ,String name, String account, String password, String sex, String email, String image, String phone){
+    public void updUser(Integer uid ,String uname, String account, String password, String sex, String email, String image, String phone){
         User user = new User();
         user.setUId(uid);
-        user.setName(name);
+        user.setUName(uname);
         user.setAccount(account);
         user.setPassword(password);
         user.setSex(sex);

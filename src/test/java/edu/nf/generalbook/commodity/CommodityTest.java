@@ -1,4 +1,4 @@
-package edu.nf.generalbook.Commodity;
+package edu.nf.generalbook.commodity;
 
 import edu.nf.generalbook.dao.CommodityDao;
 import edu.nf.generalbook.entity.Commodity;

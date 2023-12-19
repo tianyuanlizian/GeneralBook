@@ -42,7 +42,7 @@ public class EsTest {
     void createDocTest(){
         List<User> list = dao.userList();
         list.forEach(user -> {
-            UserDoc doc = new UserDoc(user.getUId(), user.getName(), user.getAccount(), user.getPassword(), user.getSex(), user.getEmail(), user.getPhoto(), user.getPhone(), user.getState());
+            UserDoc doc = new UserDoc(user.getUId(), user.getUName(), user.getAccount(), user.getPassword(), user.getSex(), user.getEmail(), user.getPhoto(), user.getPhone(), user.getState());
             service.createDoc(doc);
         });
     }
@@ -51,7 +51,7 @@ public class EsTest {
         String[] fields = {"name", "account", "email", "phone"};
         List<UserDoc> list = service.boolSearch(UserDoc.class, "", fields);
         list.forEach(userDoc ->{
-            log.info(userDoc.getName());
+            log.info(userDoc.getUName());
             log.info(userDoc.getAccount());
             log.info(userDoc.getPhone());
         });

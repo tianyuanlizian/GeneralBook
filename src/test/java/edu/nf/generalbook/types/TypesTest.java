@@ -1,10 +1,8 @@
-package edu.nf.generalbook.Types;
+package edu.nf.generalbook.types;
 
 import edu.nf.generalbook.dao.TypesDao;
 import edu.nf.generalbook.doc.TypesDoc;
-import edu.nf.generalbook.doc.UserDoc;
 import edu.nf.generalbook.entity.Types;
-import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.es.EsService;
 import edu.nf.generalbook.service.types.TypesService;
 import edu.nf.generalbook.vo.PageVO;
