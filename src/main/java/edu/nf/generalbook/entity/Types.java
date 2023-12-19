@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
  * @Author：tianyuan
  * @Date：2023/12/11 8:52
  */
+
+/**
+ * 类型表
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -9,6 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
  * @Author：tianyuan
  * @Date：2023/11/30 9:54
  */
+
+/**
+ * 用户表
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

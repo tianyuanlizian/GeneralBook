@@ -10,6 +10,10 @@ import java.time.LocalDate;
  * @Author: tianyuan
  * @Date: 2023/12/15 11:14
  **/
+
+/**
+ * 通知表
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

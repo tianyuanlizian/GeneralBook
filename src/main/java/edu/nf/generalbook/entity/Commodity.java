@@ -11,6 +11,10 @@ import java.util.Date;
  * @Author：tianyuan
  * @Date：2023/12/11 15:06
  */
+
+/**
+ * 商品信息表
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
