@@ -17,6 +17,32 @@
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="js/layui.js"></script>
 </head>
+<style>
+    @import url("//unpkg.com/element-ui@2.15.14/lib/theme-chalk/index.css");
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+</style>
 <body>
 <!-- 搜索表单开始 -->
 <form class="layui-form">
@@ -34,46 +60,117 @@
     </div>
 </form>
 
-<!-- 添加表单开始 -->
 <div id="app" style="display: none">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                名称：
+            </div>
+            <input type="text" v-model="ruleForm.buName" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                地址：
+            </div>
+            <input type="text" v-model="ruleForm.address" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                联系电话：
+            </div>
+            <input type="text" v-model="ruleForm.phone" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                邮箱：
+            </div>
+            <input type="text" v-model="ruleForm.email" class="layui-input">
+        </div>
+    </div>
+    <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="图片：">
+            <el-upload
+                    class="avatar-uploader"
+                    action="/upload"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                <img v-if="ruleForm.picture" :src="ruleForm.picture"  class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+        </el-form-item>
+    </el-form>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                简介：
+            </div>
+            <input type="text" v-model="ruleForm.introduce" class="layui-input">
+        </div>
+    </div>
+</div>
 
+<!-- 添加表单开始 -->
+<div id="ins" style="display: none">
         <div class="layui-form-item">
             <div class="layui-input-group">
                 <div class="layui-input-split layui-input-prefix">
-                    标题：
+                    名称：
                 </div>
-                <input type="text" v-model="ruleForm.title" class="layui-input">
+                <input type="text" v-model="ins.buName" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <div class="layui-input-group">
+                <div class="layui-input-split layui-input-prefix">
+                    地址：
+                </div>
+                <input type="text" v-model="ins.address" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-group">
+                <div class="layui-input-split layui-input-prefix">
+                    联系电话：
+                </div>
+                <input type="text" v-model="ins.phone" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-group">
+                <div class="layui-input-split layui-input-prefix">
+                    邮箱：
+                </div>
+                <input type="text" v-model="ins.email" class="layui-input">
+            </div>
+        </div>
+        <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="图片：">
+                <el-upload
+                        class="avatar-uploader"
+                        action="/upload"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                    <img v-if="ins.picture" :src="ins.picture"  class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </el-form-item>
+        </el-form>
         <div class="layui-form-item">
             <div class="layui-input-group">
                 <div class="layui-input-split layui-input-prefix">
                     简介：
                 </div>
-                <input type="text" v-model="ruleForm.introduce" class="layui-input">
+                <input type="text" v-model="ins.introduce" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item">
-            <div class="layui-input-group">
-                <div class="layui-input-split layui-input-prefix">
-                    详细内容：
-                </div>
-                <input type="text" v-model="ruleForm.details" class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">发布日期：</label>
-                <div class="layui-input-inline">
-                    <input  type="text" class="layui-input"  id="ins-laydate-demo" placeholder="yyyy-MM-dd">
-                </div>
-            </div>
-        </div>
-
-    </el-form>
-
 </div>
 
 <table id="table_data"></table>
@@ -97,22 +194,59 @@
                     introduce:''
                 },
             }
+        },
+        methods:{
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 5;
+
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 5MB!');
+                }
+                return isLt2M;
+            },
+            handleAvatarSuccess(res, file) {
+                this.ruleForm.picture = res; // 假设后端返回的是图片的访问路径
+            },
+        }
+    });
+    var add = new Vue({
+        el: '#ins',
+        data() {
+            return {
+                ins: {
+                    buId: '',
+                    buName:'',
+                    address:'',
+                    phone:'',
+                    email:'',
+                    picture:'',
+                    introduce:''
+                },
+            }
+        },
+        methods:{
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 5;
+
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 5MB!');
+                }
+                return isLt2M;
+            },
+            handleAvatarSuccess(res, file) {
+                this.ruleForm.picture = res; // 假设后端返回的是图片的访问路径
+            },
         }
     });
     // 加载 table 模块
     layui.use( ['jquery', 'layer', 'form','table','laydate'],function(){
 
         // 实例化动态表格的实例对象
-        let laydate = layui.laydate;
         let $ = layui.jquery;
         let table = layui.table;
         let layer = layui.layer;
         let form = layui.form;
 
-        //渲染添加功能日期组件
-        laydate.render({
-            elem: '#ins-laydate-demo'
-        })
 
         // 定义动态表格相关的参数
         table.render({
@@ -131,7 +265,8 @@
                 ,{field: 'picture', title: '图片', fixed: 'left'}
                 ,{field: 'introduce', title: '简介', fixed: 'left'}
                 ,{title: '操作', fixed: 'left',templet:function (){
-                        return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</button>'
+                        return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</button>'+
+                            '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
                     }}
             ]]
             // 把后台数据转换为layui中table组件所要求的数据格式
@@ -203,12 +338,61 @@
                         }
                     }) ;
                 }) ;
+            }else if(obj.event=='update') {
+                // 第一：获取当前行的数据
+                let p = obj.data ;
+                console.log(p) ;
+                app.ruleForm = {
+                    buId: p.buId,
+                    buName:p.buName,
+                    address:p.address,
+                    phone:p.phone,
+                    email:p.email,
+                    picture:p.picture,
+                    introduce:p.introduce
+                };
+
+                // 第二：弹出修改窗体，并把当前行的数据回显在页面中
+                // 1.把数据设置在修改表单中
+                // 2.弹出窗体
+                layer.open({
+                    type:1,
+                    title:'修改商品',
+                    area:['50%','35em'],
+                    resize:false,
+                    content:$("#app"),
+                    btn:['修改','取消'],
+                    btn1:function( index ) {
+                        $.ajax({
+                            url:'/updBusiness',
+                            method:'POST',
+                            data:{
+                                buId:p.buId,
+                                buName:app.ruleForm.buName,
+                                address:app.ruleForm.address,
+                                phone:app.ruleForm.phone,
+                                email:app.ruleForm.email,
+                                picture:app.ruleForm.picture,
+                                introduce:app.ruleForm.introduce
+
+                            },
+                            success:function( res ){
+                                // 弹出提示框
+                                layer.msg("修改成功")
+                                // 根据弹出层的索引，关闭弹出确认框
+                                layer.close(index) ;
+                                // 重新加载表格数据
+                                table.reload('table_data',{page:{curr:1}});
+                            }
+                        }) ;
+                    }
+                }) ;
             }
         });
 
         //清空添加表单数据方法
         let deladd = function (){
-            app.ruleForm={
+            add.ins={
                 buId: '',
                 buName:'',
                 address:'',
@@ -217,7 +401,6 @@
                 picture:'',
                 introduce:''
             }
-            document.getElementById('ins-laydate-demo').value = '';
         }
 
         // 实现添加类型操作
@@ -227,20 +410,20 @@
                 title: '添加商家信息',
                 area: ['50%', '35em'],
                 resize: false,
-                content: $("#app"),
+                content: $("#ins"),
                 btn: ['添加', '取消'],
                 btn1: function (index) {
                     $.ajax({
                         url: '/addBusiness',
                         method: 'post',
                         data: {
-                            buId: app.ruleForm.buId,
-                            buName:app.ruleForm.buName,
-                            address:app.ruleForm.address,
-                            phone:app.ruleForm.phone,
-                            email:app.ruleForm.email,
-                            picture:app.ruleForm.picture,
-                            introduce:app.ruleForm.introduce
+                            buId: add.ins.buId,
+                            buName:add.ins.buName,
+                            address:add.ins.address,
+                            phone:add.ins.phone,
+                            email:add.ins.email,
+                            picture:add.ins.picture,
+                            introduce:add.ins.introduce
                         },
                         success: function (res) {
                             // 弹出提示框
