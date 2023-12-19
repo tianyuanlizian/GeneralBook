@@ -29,44 +29,37 @@
     <div class="layui-inline">
         <input type="button" id="selectBtn" class="layui-btn" data-type="reload" value="查询">
     </div>
+    <div class="layui-inline">
+        <input type="button" id="addBtn" class="layui-btn" data-type="reload" value="添加">
+    </div>
 </form>
 
 <!--添加表单开始-->
 <div id="app" style="display: none">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="用户名：" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="账号：" prop="account">
-            <el-input v-model="ruleForm.account"></el-input>
-        </el-form-item>
-        <el-form-item label="密码：" prop="password">
-            <el-input  v-model="ruleForm.password" show-password autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="性别：" prop="sex">
-            <el-radio-group v-model="ruleForm.sex">
-                <el-radio label="男"></el-radio>
-                <el-radio label="女"></el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item label="邮箱：" prop="email">
-            <el-input v-model="ruleForm.email"></el-input>
-        </el-form-item>
-        <el-form-item label= "头像：">
-            <el-upload
-                    class="avatar-uploader"
-                    action="/upload"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload">
-                <img v-if="ruleForm.photo" :src="ruleForm.photo"  class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-        </el-form-item>
-        <el-form-item label="手机号码：" prop="phone">
-            <el-input v-model="ruleForm.phone"></el-input>
-        </el-form-item>
-    </el-form>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                名称：
+            </div>
+            <input type="text" v-model="ruleForm.adName" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                账号：
+            </div>
+            <input type="text" v-model="ruleForm.account" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-group">
+            <div class="layui-input-split layui-input-prefix">
+                密码：
+            </div>
+            <input type="text" v-model="ruleForm.password" class="layui-input">
+        </div>
+    </div>
 </div>
 
 <table id="table_data"></table>
@@ -101,7 +94,7 @@
                     state: '',
                 },
                 rules: {
-                    name: [{
+                    adName: [{
                         validator: checkName,
                         trigger: 'blur'
                     }],
@@ -149,16 +142,16 @@
                         }
                     }}
                 ,{title: '操作', fixed: 'left',templet:function (row){
-                        if (row.state ==='1' && row.adId !== '1'){
-                            return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>' +
-                                '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
-                        }
-                        else if (row.adId === '1'){
+                        if (row.adId === 1){
                             return '超级管理员信息不可更改'
+                        }
+                        else if (row.state ==='1' && row.adId !== 1){
+                            return ' <button  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">封禁</button>' +
+                                '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete">删除</button>'
                         }
                         else {
                             return '<button class="layui-btn layui-btn-xs" lay-event="state">启用</button>' +
-                                '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">编辑</button>'
+                                '<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete">删除</button>'
                         }
                     }}
             ]]
@@ -239,7 +232,7 @@
                 let state =  obj.data.state == 1 ? '0' : '1';
 
                 // 弹出确认框
-                layer.confirm("您确认更改此用户的状态吗？",function( index ){
+                layer.confirm("您确认更改此管理员的状态吗？",function( index ){
                     // 向服务器发起异步请求，实现数据的删除
                     $.ajax({
                         url:'/updAdminStart',
@@ -256,55 +249,26 @@
                     }) ;
                 }) ;
 
-            } else if(obj.event=='update') {
-                // 第一：获取当前行的数据
+            } else if(obj.event=='delete') {
                 let p = obj.data ;
-                app.ruleForm = {
-                    name: p.name,
-                    account: p.account,
-                    password: p.password,
-                    sex: p.sex,
-                    email: p.email,
-                    photo: p.photo,
-                    phone: p.phone,
-                    uid: p.uid,
-                };
-
-                // 第二：弹出修改窗体，并把当前行的数据回显在页面中
-                // 1.把数据设置在修改表单中
-                // 2.弹出窗体
-                layer.open({
-                    type:1,
-                    title:'修改商品',
-                    area:['50%','35em'],
-                    resize:false,
-                    content:$("#app"),
-                    btn:['修改','取消'],
-                    btn1:function( index ) {
-                        $.ajax({
-                            url:'/updUser',
-                            method:'post',
-                            data:{
-                                uid:app.ruleForm.uid,
-                                name: app.ruleForm.name,
-                                account: app.ruleForm.account,
-                                password: app.ruleForm.password,
-                                sex: app.ruleForm.sex,
-                                email: app.ruleForm.email,
-                                image: app.ruleForm.photo,
-                                phone: app.ruleForm.phone
-                            },
-                            success:function( res ){
-                                // 弹出提示框
-                                layer.msg("修改成功")
-                                // 根据弹出层的索引，关闭弹出确认框
-                                layer.close(index) ;
-                                // 重新加载表格数据
-                                table.reload('table_data',{page:{curr:1}});
-                            }
-                        }) ;
-                    }
+                // 弹出确认框
+                layer.confirm("您确认要删除该管理员吗？",function( index ){
+                    // 向服务器发起异步请求，实现数据的删除
+                    $.ajax({
+                        url:'/delAdmin',
+                        method:'get',
+                        data:{'adId':p.adId},
+                        success:function( res ){
+                            // 弹出提示框
+                            layer.msg("删除成功")
+                            // 根据弹出层的索引，关闭弹出确认框
+                            layer.close(index) ;
+                            // 重新加载表格数据
+                            table.reload('table_data',{page:{curr:1}});
+                        }
+                    }) ;
                 }) ;
+
             }
         });
 

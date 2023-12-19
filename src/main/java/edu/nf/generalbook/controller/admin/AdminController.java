@@ -49,12 +49,12 @@ public class AdminController {
         service.addAdmin(admin);
     }
 
-    @PostMapping("/updAdminStart")
+    @GetMapping("/updAdminStart")
     public void updAdminStart(Integer adId, String state){
        service.updAdminState(adId,state);
     }
 
-    @PostMapping("/delAdmin")
+    @GetMapping("/delAdmin")
     public void delAdmin(Integer adId){
         service.delAdmin(adId);
     }
