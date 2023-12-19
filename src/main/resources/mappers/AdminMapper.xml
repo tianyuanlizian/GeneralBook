@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.generalbook.dao.AdminDao">
+    <resultMap id="adminMap" type="edu.nf.generalbook.entity.Admin">
+        <id property="adId" column="ad_id"/>
+        <result property="adName" column="ad_name"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="state" column="state"/>
+    </resultMap>
+    <insert id="addAdmin">
+        insert into admin(ad_name,account,password,state)  values (#{adName},#{account},#{password},#{state})
+    </insert>
+    <update id="updAdminState">
+        update admin set state = #{state} where ad_id = #{id}
+    </update>
+    <delete id="delAdmin">
+        delete from admin where ad_id = #{adId}
+    </delete>
+    <select id="listAdmin" resultMap="adminMap">
+        select ad_id,ad_name,account,password,state from admin
+    </select>
+    <select id="count">
+        select count(*) from admin;
+    </select>
+    <select id="adminList" resultMap="adminMap">
+        select ad_id,ad_name,account,password,state from admin
+    </select>
+
+
+</mapper>

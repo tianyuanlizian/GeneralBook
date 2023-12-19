@@ -34,7 +34,6 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public void addBusiness(Business business) {
         dao.addBusiness(business);
-
     }
 
     @Override
