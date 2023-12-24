@@ -38,13 +38,13 @@
             <result property="state" column="state"/>
         </association>
     </resultMap>
-    <select id="listOrderGoods" resultMap="orderGoodsMap">
-        select o_id,order_id,b_id,number,unit_price,total_price,moeny,u_id,create_date,state
-        from order_goods
-    </select>
 <!--    <select id="listOrderGoods" resultMap="orderGoodsMap">-->
-<!--        select og.o_id,og.order_id,og.b_id,og.number,og.unit_price,og.total_price,og.moeny,og.u_id,og.create_date,og.state,c.b_name,u.u_name-->
-<!--        from order_goods og join commodity c on og.b_id = c.b_id join user u on og.u_id = u.u_id-->
+<!--        select o_id,order_id,b_id,number,unit_price,total_price,money,u_id,create_date,state-->
+<!--        from order_goods-->
 <!--    </select>-->
+    <select id="listOrderGoods" resultMap="orderGoodsMap">
+        select og.o_id,og.order_id,og.b_id,og.number,og.unit_price,og.total_price,og.money,og.u_id,og.create_date,og.state,c.b_name,u.u_name
+        from order_goods og join commodity c on og.b_id = c.b_id join user u on og.u_id = u.u_id
+    </select>
 
 </mapper>
