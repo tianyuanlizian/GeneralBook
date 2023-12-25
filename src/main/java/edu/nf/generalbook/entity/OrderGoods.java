@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 /**
  * @Author: tianyuan
@@ -36,7 +37,7 @@ public class OrderGoods {
     //用户id
     private Integer uId;
     //购买时间
-    private Date createDate;
+    private LocalDateTime createDate;
     //状态
     private String state;
 

@@ -37,7 +37,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
 
     @Override
     public void delOrderGoods(Integer id) {
-        delOrderGoods(id);
+        dao.delOrderGoods(id);
     }
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -54,12 +55,12 @@ public class OrderGoodsController {
         orderGoods.setTotalPrice(totalPrice);
         orderGoods.setMoney(money);
         orderGoods.setUId(uid);
-        orderGoods.setCreateDate(new Date());
+        orderGoods.setCreateDate(LocalDateTime.now());
         orderGoods.setState("1");
         service.addOrderGoods(orderGoods);
     }
 
-    @GetMapping("/delOrderGoods")
+    @PostMapping("/delOrderGoods")
     public void delOrderGoods(Integer oid){
         service.delOrderGoods(oid);
     }
