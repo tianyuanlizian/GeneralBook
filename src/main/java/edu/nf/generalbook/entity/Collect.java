@@ -20,7 +20,11 @@ public class Collect {
     private Integer bId;
     //添加收藏时间
     private LocalDateTime createDate;
+    //用户ID
+    private Integer uId;
 
     //商品对象
     private Commodity commodity;
+    //用户对象
+    private User user;
 }

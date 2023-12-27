@@ -6,6 +6,7 @@
         <id property="coId" column="co_id"/>
         <result property="bId" column="b_id"/>
         <result property="createDate" column="create_date"/>
+        <result property="uId" column="u_id"/>
         <association property="commodity">
             <id property="bId" column="b_id"/>
             <result property="bName" column="b_name"/>
@@ -19,10 +20,30 @@
             <result property="inventory" column="inventory"/>
             <result property="state" column="state"/>
         </association>
+        <association property="user">
+            <id property="uId" column="u_id"/>
+            <result property="uName" column="u_name"/>
+            <result property="account" column="account"/>
+            <result property="password" column="password"/>
+            <result property="sex" column="sex"/>
+            <result property="email" column="email"/>
+            <result property="photo" column="photo"/>
+            <result property="phone" column="phone"/>
+            <result property="state" column="state"/>
+        </association>
     </resultMap>
-    <select id="listAddressInfo" resultMap="collect">
-        select co.co_id,co.b_id,co.creste_date,c.b_id,c.b_name,c.author,c.press,c.notes,c.t_id,c.issuing_date,c.produce_date,c.picture,c.inventory,c.state
-        from collect co join commodity c on co.b_id = c.b_id
+    <insert id="addCollect">
+        insert into collect(b_id,create_date,u_id) values (#{bId},#{createDate},#{uId})
+    </insert>
+    <delete id="delCollect">
+        delete from collect where co_id = #{id}
+    </delete>
+    <select id="listCollect" resultMap="collect">
+        select co.co_id,co.b_id,co.create_date,co.u_id,c.b_name,c.author,c.press,c.notes,c.issuing_date,c.produce_date,c.picture,u.u_name
+        from collect co left join commodity c on co.b_id = c.b_id left join user u on co.u_id = u.u_id
+    </select>
+    <select id="count">
+        select count(*) from collect
     </select>
 
 </mapper>
