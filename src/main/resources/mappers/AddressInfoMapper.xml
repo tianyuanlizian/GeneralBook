@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.generalbook.dao.AddressInfoDao">
+    <resultMap id="AddressMap" type="edu.nf.generalbook.entity.AddressInfo">
+        <id property="aId" column="a_id"/>
+        <result property="aName" column="a_name"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
+        <result property="uId" column="u_id"/>
+        <association property="user">
+            <id property="uId" column="u_id"/>
+            <result property="uName" column="u_name"/>
+            <result property="account" column="account"/>
+            <result property="password" column="password"/>
+            <result property="sex" column="sex"/>
+            <result property="email" column="email"/>
+            <result property="photo" column="photo"/>
+            <result property="phone" column="phone"/>
+            <result property="state" column="state"/>
+        </association>
+    </resultMap>
+    <insert id="addAddressInfo">
+        insert into address_info(a_name,address,phone,u_id) values (#{aName},#{address},#{phone},#{uId})
+    </insert>
+    <update id="updAddressInfo">
+        update address_info set a_name = #{aName},address = #{address},phone = #{phone},u_id = #{uId} where a_id = #{aId}
+    </update>
+    <delete id="delAddressInfo">
+        delete from address_info where a_id = #{id}
+    </delete>
+    <select id="listAddressInfo" resultMap="AddressMap">
+        select a.a_id,a.a_name,a.address,a.phone,a.u_id,u.u_name from address_info a join user u on a.u_id = u.u_id
+    </select>
+    <select id="count" >
+        select count(*) from address_info;
+    </select>
+
+</mapper>

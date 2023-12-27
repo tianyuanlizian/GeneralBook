@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class OrderGoodsTest {
         orderGoods.setTotalPrice(new BigDecimal(66.8));
         orderGoods.setMoney(new BigDecimal(66.8));
         orderGoods.setUId(1);
-        orderGoods.setCreateDate(new Date());
+        orderGoods.setCreateDate(LocalDateTime.now());
         orderGoods.setState("1");
         dao.addOrderGoods(orderGoods);
     }
