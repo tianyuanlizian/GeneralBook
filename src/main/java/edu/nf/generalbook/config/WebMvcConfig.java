@@ -18,8 +18,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginInterceptor())
-//                .addPathPatterns("/**") // 拦截所有路径
-//                .excludePathPatterns("/login.html", "/logout.html"); // 不拦截登录和注销路径
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/**") // 拦截所有路径
+                .excludePathPatterns("/login.html", "/register.html","/js/**","/layui/**","/elementcss/**"); // 不拦截登录和注销路径
     }
 }

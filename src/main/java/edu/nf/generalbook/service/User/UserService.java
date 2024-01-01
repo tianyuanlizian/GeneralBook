@@ -2,6 +2,7 @@ package edu.nf.generalbook.service.User;
 
 import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.vo.PageVO;
+import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface UserService {
      * @param account
      * @return
      */
-    User login(String account, String password);
+    PageVO<User> login(HttpSession session,String account, String password);
 
     /**
      * 修改用户

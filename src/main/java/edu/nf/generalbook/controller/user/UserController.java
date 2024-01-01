@@ -1,10 +1,11 @@
-package edu.nf.generalbook.controller.User;
+package edu.nf.generalbook.controller.user;
 
 import edu.nf.generalbook.doc.UserDoc;
 import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.User.UserService;
 import edu.nf.generalbook.service.es.EsService;
 import edu.nf.generalbook.vo.PageVO;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +36,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User login(String account, String password){
-        User user = service.login(account, password);
+    public PageVO<User> login(HttpSession session,String account, String password){
+        PageVO<User> user = service.login(session,account, password);
         return user;
     }
 

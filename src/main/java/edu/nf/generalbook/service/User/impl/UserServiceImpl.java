@@ -4,6 +4,7 @@ import edu.nf.generalbook.dao.UserDao;
 import edu.nf.generalbook.entity.User;
 import edu.nf.generalbook.service.User.UserService;
 import edu.nf.generalbook.vo.PageVO;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,12 +29,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String account, String password) {
-        User user = dao.loginUser(account);
-        if (password.equals(user.getPassword()) && "1".equals(user.getState())){
-            return user;
+    public PageVO<User> login(HttpSession session, String account, String password) {
+        PageVO vo = new PageVO();
+        if(account != null && !"".equals(account)){
+            User user = dao.loginUser(account);
+            if (user != null && password.equals(user.getPassword()) && "1".equals(user.getState())){
+                session.setAttribute("user", user);
+                vo.setData(user);
+                vo.setMessage("登录成功");
+            }else if (user == null){
+                vo.setMessage("没有该用户");
+            }else {
+                vo.setMessage("密码错误或者该用户已被封禁");
+            }
         }
-        throw new RuntimeException("用户"+account+"错误");
+        return vo;
     }
 
     @Override
