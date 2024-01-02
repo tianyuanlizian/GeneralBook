@@ -51,35 +51,9 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
-    /**
-     * 上存图片并保存信息
-     * @return
-     */
-    public void uploadImage(User user) throws Exception {
-        createBucket(bucketName);
-        // 生成唯一的文件名，避免重复
-        String fileName = UUID.randomUUID().toString() + "_" + user.getImage().getOriginalFilename();
-
-        // 使用MinIO客户端上传文件
-        ObjectWriteResponse objectWriteResponse = minioClient.putObject(
-                io.minio.PutObjectArgs.builder()
-                        .bucket(bucketName)
-                        .object(fileName)
-                        .contentType("application/octet-stream")
-                        .stream(user.getImage().getInputStream(), user.getImage().getSize(), -1)
-                        .build()
-        );
-
-        // 在这里你可以将图片信息保存到数据库
-        //获取链接
-        String url = getPresignedUrl(bucketName, fileName);
-        user.setPhoto(url);
-        user.setState("1");
-        dao.addUser(user);
-    }
 
     /**
-     * 上存图片
+     * 上存图片并返回图片地址
      * @param file
      * @return
      */
@@ -106,39 +80,6 @@ public class MinioServiceImpl implements MinioService {
     }
 
 
-
-    /**
-     * 文件下载
-     * @param fileName 文件名
-     * @return
-     */
-    public ResponseEntity<InputStreamResource> downloadImage( String fileName){
-        try {
-            // 从MinIO下载文件流
-            GetObjectResponse objectResponse = minioClient.getObject(
-                    io.minio.GetObjectArgs.builder()
-                            .bucket(bucketName)
-                            .object(fileName)
-                            .build()
-            );
-
-            InputStream inputStream = objectResponse;
-
-            // 设置响应头
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
-            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
-
-            // 返回响应实体
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentType(MediaType.IMAGE_JPEG)
-                    .body(new InputStreamResource(inputStream));
-        } catch (Exception e) {
-            // 处理异常
-            return ResponseEntity.notFound().build();
-        }
-    }
 
     /**
      * 返回下载链接

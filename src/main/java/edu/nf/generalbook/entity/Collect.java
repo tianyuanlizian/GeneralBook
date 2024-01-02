@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
+ * 收藏表实体类
  * @Author: tianyuan
  * @Date: 2023/12/27 09:49
  **/

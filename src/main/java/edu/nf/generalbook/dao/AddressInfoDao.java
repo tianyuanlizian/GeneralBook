@@ -31,7 +31,7 @@ public interface AddressInfoDao {
     void delAddressInfo(Integer id);
 
     /**
-     * 修改
+     * 根据ID修改
      * @param addressInfo 地址对象
      */
     void updAddressInfo(AddressInfo addressInfo);

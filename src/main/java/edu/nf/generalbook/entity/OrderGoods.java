@@ -9,13 +9,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 /**
+ * 订单表实体类
  * @Author: tianyuan
  * @Date: 2023/12/19 16:22
  **/
-
-/**
- * 订单表
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -17,25 +17,13 @@ public interface MinioService {
      */
     void createBucket(String bucketName) throws Exception;
 
-    /**
-     * 上传头像并保存信息到数据库
-     * @param user
-     * @throws Exception
-     */
-    void uploadImage(User user)  throws Exception;
 
     /**
-     * 图片上传
+     * 图片上传并返回图片地址
      * @param file
      * @return
      */
     String uploadFile(MultipartFile file);
 
-    /**
-     * 下载功能
-     * @param fileName
-     * @return
-     */
-    ResponseEntity<InputStreamResource> downloadImage(String fileName);
 
 }

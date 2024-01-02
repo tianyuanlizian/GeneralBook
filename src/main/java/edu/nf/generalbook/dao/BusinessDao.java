@@ -42,5 +42,9 @@ public interface BusinessDao {
      */
     Long count();
 
+    /**
+     * 查询全部商家信息
+     * @return
+     */
     List<Business> businessList();
 }

@@ -42,5 +42,9 @@ public interface AdminDao {
      */
     Long count();
 
+    /**
+     * 查询所有管理员信息
+     * @return
+     */
     List<Admin> adminList();
 }

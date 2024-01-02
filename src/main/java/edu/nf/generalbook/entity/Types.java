@@ -5,12 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 类型表实体类
  * @Author：tianyuan
  * @Date：2023/12/11 8:52
- */
-
-/**
- * 类型表
  */
 @Data
 @AllArgsConstructor

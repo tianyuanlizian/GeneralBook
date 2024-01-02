@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
+ * 商品信息Doc，搜索引擎使用
  * @Author：tianyuan
  * @Date：2023/12/11 15:25
  */

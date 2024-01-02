@@ -6,12 +6,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
+ * 用户表实体类
  * @Author：tianyuan
  * @Date：2023/11/30 9:54
- */
-
-/**
- * 用户表
  */
 @Data
 @AllArgsConstructor

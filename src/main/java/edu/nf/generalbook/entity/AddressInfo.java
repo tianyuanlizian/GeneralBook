@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 地址实体类
  * @Author: tianyuan
  * @Date: 2023/12/27 08:35
  **/

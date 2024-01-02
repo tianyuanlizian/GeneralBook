@@ -34,5 +34,9 @@ public interface TypesDao {
      */
     Long count();
 
+    /**
+     * 查询所有类型
+     * @return
+     */
     List<Types> typesList();
 }

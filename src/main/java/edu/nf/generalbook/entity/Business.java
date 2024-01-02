@@ -5,13 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 商家信息实体类
  * @Author: tianyuan
  * @Date: 2023/12/18 09:09
  **/
-
-/**
- * 商家信息表
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

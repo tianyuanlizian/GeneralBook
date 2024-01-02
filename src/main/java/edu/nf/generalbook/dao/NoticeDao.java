@@ -34,5 +34,9 @@ public interface NoticeDao {
      */
     Long count();
 
+    /**
+     * 查询所有通知
+     * @return
+     */
     List<Notice> noticeList();
 }

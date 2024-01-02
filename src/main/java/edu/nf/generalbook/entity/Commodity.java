@@ -8,12 +8,9 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
+ * 商品信息实体类
  * @Author：tianyuan
  * @Date：2023/12/11 15:06
- */
-
-/**
- * 商品信息表
  */
 @Data
 @AllArgsConstructor

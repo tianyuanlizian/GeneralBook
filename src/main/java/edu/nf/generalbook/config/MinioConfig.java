@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * minio配置类
  * @Author：tianyuan
  * @Date：2023/12/7 15:23
  */

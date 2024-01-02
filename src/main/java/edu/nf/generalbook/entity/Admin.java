@@ -5,13 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 管理员实体类
  * @Author: tianyuan
  * @Date: 2023/12/19 09:36
  **/
-
-/**
- * 管理员表
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

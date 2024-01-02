@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
+ * 订单信息Doc，搜索引擎使用
  * @Author: tianyuan
  * @Date: 2023/12/19 19:09
  **/

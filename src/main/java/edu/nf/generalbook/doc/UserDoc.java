@@ -10,6 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Mapping;
 
 /**
+ * 用户信息Doc，搜索引擎使用
  * @Author：tianyuan
  * @Date：2023/12/5 9:43
  */

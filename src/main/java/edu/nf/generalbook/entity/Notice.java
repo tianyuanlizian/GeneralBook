@@ -7,13 +7,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 /**
+ * 通知表实体类
  * @Author: tianyuan
  * @Date: 2023/12/15 11:14
  **/
-
-/**
- * 通知表
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -12,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.Mapping;
 import java.time.LocalDate;
 
 /**
+ * 通知的Doc，搜索引擎使用
  * @Author: tianyuan
  * @Date: 2023/12/15 11:33
  **/

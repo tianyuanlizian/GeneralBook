@@ -6,6 +6,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * 拦截器
  * @Author: tianyuan
  * @Date: 2023/12/25 20:32
  **/
