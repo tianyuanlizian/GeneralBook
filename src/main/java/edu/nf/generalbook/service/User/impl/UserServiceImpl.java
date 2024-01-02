@@ -29,24 +29,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageVO<User> login(HttpSession session, String account, String password) {
-        PageVO vo = new PageVO();
-        if(account != null && !"".equals(account)){
-            User user = dao.loginUser(account);
-            if (user != null && password.equals(user.getPassword()) && "1".equals(user.getState())){
-                session.setAttribute("user", user);
-                vo.setData(user);
-                vo.setMessage("登录成功");
-            }else if (user == null){
-                vo.setMessage("没有该用户");
-            }else {
-                vo.setMessage("密码错误或者该用户已被封禁");
-            }
-        }
-        return vo;
-    }
-
-    @Override
     public void updUser(User user) {
         dao.updUser(user);
     }

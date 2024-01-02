@@ -35,12 +35,6 @@ public class UserController {
         this.service = service;
     }
 
-    @PostMapping("/login")
-    public PageVO<User> login(HttpSession session,String account, String password){
-        PageVO<User> user = service.login(session,account, password);
-        return user;
-    }
-
     @PostMapping("/addUser")
     public void addUser(String uname,String account, String password, String sex, String email, String image, String phone){
         User user = new User();

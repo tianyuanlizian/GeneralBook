@@ -19,13 +19,6 @@ public interface UserService {
     void addUser(User user);
 
     /**
-     * 根据用户账号查询用户
-     * @param account
-     * @return
-     */
-    PageVO<User> login(HttpSession session,String account, String password);
-
-    /**
      * 修改用户
      * @param user
      */
