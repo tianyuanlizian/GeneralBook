@@ -112,13 +112,14 @@
                                 password: this.ruleForm.password
                             },
                             success(result) {
+                                console.log(result);
                                 //保存数据
-                                sessionStorage.setItem('name',result.name);
-                                sessionStorage.setItem('account',result.account);
-                                sessionStorage.setItem('sex',result.sex);
-                                sessionStorage.setItem('email',result.email);
-                                sessionStorage.setItem('photo',result.photo);
-                                sessionStorage.setItem('phone',result.phone);
+                                sessionStorage.setItem('name',result.data.uname);
+                                sessionStorage.setItem('account',result.data.account);
+                                sessionStorage.setItem('sex',result.data.sex);
+                                sessionStorage.setItem('email',result.data.email);
+                                sessionStorage.setItem('photo',result.data.photo);
+                                sessionStorage.setItem('phone',result.data.phone);
                                 location.href = 'index.html';
                             },
                             error() {
