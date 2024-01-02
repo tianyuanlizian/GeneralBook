@@ -21,9 +21,11 @@ import java.util.List;
 @RestController
 @Slf4j
 public class AdminController {
-
+    //管理员的service
     private AdminService service;
+    //搜索引擎
     private EsService esService;
+    //注入
     @Autowired
     public void setService(AdminService service) {
         this.service = service;
@@ -33,12 +35,13 @@ public class AdminController {
         this.esService = esService;
     }
 
+    //查询全部管理员信息
     @GetMapping("/liatAdmin")
     public PageVO<List<Admin>> listAdmin(Integer page, Integer limit){
         PageVO<List<Admin>> vo = service.listAdmin(page, limit);
         return vo;
     }
-
+    //添加管理员
     @PostMapping("/addAdmin")
     public void addAdmin(String adName, String account, String password){
         Admin admin = new Admin();
@@ -48,12 +51,13 @@ public class AdminController {
         admin.setState("1");
         service.addAdmin(admin);
     }
-
+    //根据ID修改管理员信息
     @GetMapping("/updAdminStart")
     public void updAdminStart(Integer adId, String state){
        service.updAdminState(adId,state);
     }
 
+    //根据ID删除管理员
     @GetMapping("/delAdmin")
     public void delAdmin(Integer adId){
         service.delAdmin(adId);

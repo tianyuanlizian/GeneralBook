@@ -25,9 +25,11 @@ import java.util.List;
 @RestController
 @Slf4j
 public class NoticeController {
-
+    //通知功能的service
     private NoticeService service;
+    //搜索引擎
     private EsService esService;
+    //注入
     @Autowired
     public void setService(NoticeService service) {
         this.service = service;
@@ -36,13 +38,13 @@ public class NoticeController {
     public void setEsService(EsService esService) {
         this.esService = esService;
     }
-
+    //查询全部的通知
     @GetMapping("/listNotice")
     public PageVO<List<Notice>> listNotice(Integer page, Integer limit){
         PageVO<List<Notice>> vo = service.listNotice(page, limit);
         return vo;
     }
-
+    //发布一条新通知
     @PostMapping("/addNotice")
     public void addNotice(String title, String introduce, String details, String releaseDate){
         Notice notice = new Notice();
@@ -52,12 +54,12 @@ public class NoticeController {
         notice.setReleaseDate(LocalDate.parse(releaseDate));
         service.addNotice(notice);
     }
-
+    //根据ID删除通知
     @PostMapping("/delNotice")
     public void delNotice(Integer nid){
         service.delNotice(nid);
     }
-
+    //使用搜索引擎查询数据
     @GetMapping("/selectNotice")
     public PageVO<List<Notice>> selectNotice(String param, Integer page, Integer limit){
         String[] fields = {"name"};
@@ -67,6 +69,7 @@ public class NoticeController {
         vo.setCount(list.stream().count());
         return vo;
     }
+    //查询全部的通知（不使用分页）
     @GetMapping("/NoticeList")
     public PageVO<List<Notice>> NoticeList(){
         List<Notice> list = service.noticeList();

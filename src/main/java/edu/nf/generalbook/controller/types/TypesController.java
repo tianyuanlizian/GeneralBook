@@ -22,9 +22,11 @@ import java.util.List;
 @RestController
 @Slf4j
 public class TypesController {
-
+    //类型的service
     private TypesService service;
+    //搜索引擎
     private EsService esService;
+    //注入
     @Autowired
     public void setService(TypesService service) {
         this.service = service;
@@ -33,23 +35,23 @@ public class TypesController {
     public void setEsService(EsService esService) {
         this.esService = esService;
     }
-
+    //查询全部的类型
     @GetMapping("/listTypes")
     public PageVO<List<Types>> listTypes(Integer page, Integer limit){
         PageVO<List<Types>> vo = service.listTypes(page, limit);
         return vo;
     }
-
+    //添加一种新类型
     @PostMapping("/addTypes")
     public void addTypes(String name){
         service.addTypes(name);
     }
-
+    //根据ID删除类型
     @PostMapping("/delTypes")
     public void delTypes(Integer tid){
         service.delTypes(tid);
     }
-
+    //使用搜索引擎查询类型
     @GetMapping("/selectTypes")
     public PageVO<List<Types>> selectTypes(String param, Integer page, Integer limit){
         String[] fields = {"name"};
@@ -59,6 +61,7 @@ public class TypesController {
         vo.setCount(list.stream().count());
         return vo;
     }
+    //查询全部的类型（不使用分页）
     @GetMapping("/typesList")
     public PageVO<List<Types>> typesList(){
         List<Types> list = service.typesList();

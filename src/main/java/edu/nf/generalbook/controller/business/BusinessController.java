@@ -20,9 +20,11 @@ import java.util.List;
 @RestController
 @Slf4j
 public class BusinessController {
-
+    //商家信息的service
     private BusinessService service;
+    //搜索引擎
     private EsService esService;
+    //注入
     @Autowired
     public void setService(BusinessService service) {
         this.service = service;
@@ -31,13 +33,13 @@ public class BusinessController {
     public void setEsService(EsService esService) {
         this.esService = esService;
     }
-
+    //查询全部的商家信息
     @GetMapping("/liatBusiness")
     public PageVO<List<Business>> listBusiness(Integer page, Integer limit){
         PageVO<List<Business>> vo = service.listBusiness(page, limit);
         return vo;
     }
-
+    //添加商家信息
     @PostMapping("/addBusiness")
     public void addBusiness(String buName, String address, String phone, String email, String picture, String introduce){
         Business business = new Business();
@@ -49,7 +51,7 @@ public class BusinessController {
         business.setIntroduce(introduce);
         service.addBusiness(business);
     }
-
+    //根据ID修改商家信息
     @PostMapping("/updBusiness")
     public void updBusiness(Integer buId, String buName, String address, String phone, String email, String picture, String introduce){
         Business business = new Business();
@@ -62,7 +64,7 @@ public class BusinessController {
         business.setIntroduce(introduce);
         service.updBusiness(business);
     }
-
+    ////根据ID删除商家信息
     @PostMapping("/delBusiness")
     public void delBusiness(Integer buId){
         service.delBusiness(buId);

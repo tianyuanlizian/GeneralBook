@@ -22,10 +22,11 @@ import java.util.List;
 @RestController
 @Slf4j
 public class CommodityController {
+    //商品的service
     private CommodityService service;
-
+    //搜索引擎
     private EsService esService;
-
+    //注入
     @Autowired
     public void setEsService(EsService esService) {
         this.esService = esService;
@@ -35,13 +36,13 @@ public class CommodityController {
     public void setService(CommodityService service) {
         this.service = service;
     }
-
+    //查询全部的商品信息
     @GetMapping("/listCommodity")
     public PageVO<List<Commodity>> listCommodity(Integer page, Integer limit){
         PageVO<List<Commodity>> vo = service.listCommodity(page, limit);
         return vo;
     }
-
+    //添加商品
     @PostMapping("/addCommodity")
     public void addCommodity(String bname, String author, String press, String notes, Integer tId, String issuingDate, String produceDate,
                              String picture, Integer inventory){
@@ -58,7 +59,7 @@ public class CommodityController {
         commodity.setState("1");
         service.addCommodity(commodity);
     }
-
+    //根据ID修改商品信息
     @PostMapping("/updCommodity")
     public void updCommodity( Integer bId, String bname, String author, String press, String notes, Integer tId, String issuingDate,
                               String produceDate, String picture, Integer inventory){
@@ -76,7 +77,7 @@ public class CommodityController {
         commodity.setState("1");
         service.updCommodity(commodity);
     }
-
+    //根据ID修改商品状态
     @GetMapping("/updCommodityState")
     public void updCommodityState(Integer bId,String state){
         service.updCommodityState(bId,state);

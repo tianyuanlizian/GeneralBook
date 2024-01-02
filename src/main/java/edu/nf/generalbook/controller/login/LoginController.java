@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 public class LoginController {
+    //登录功能的service
     private LoginService service;
+    //注入
     @Autowired
     public void setService(LoginService service) {
         this.service = service;
     }
 
+    //登录
     @PostMapping("/login")
     public PageVO<User> login(HttpSession session, String account, String password){
         PageVO<User> user = service.login(session,account, password);

@@ -21,10 +21,11 @@ import java.util.List;
 @RestController
 @Slf4j
 public class UserController {
+    //用户的service
     private UserService service;
-
+    //搜索引擎
     private EsService esService;
-
+    //注入
     @Autowired
     public void setEsService(EsService esService) {
         this.esService = esService;
@@ -34,7 +35,7 @@ public class UserController {
     public void setService(UserService service) {
         this.service = service;
     }
-
+    //注册新用户
     @PostMapping("/addUser")
     public void addUser(String uname,String account, String password, String sex, String email, String image, String phone){
         User user = new User();
@@ -48,13 +49,13 @@ public class UserController {
         user.setState("1");
         service.addUser(user);
     }
-
+    //查询全部的用户信息
     @GetMapping("/listUser")
     public PageVO<List<User>> listUser(Integer page, Integer limit){
         PageVO<List<User>> vo = service.listUser(page, limit);
         return vo;
     }
-
+    //根据ID修改用户信息
     @PostMapping("/updUser")
     public void updUser(Integer uid ,String uname, String account, String password, String sex, String email, String image, String phone){
         User user = new User();
@@ -68,13 +69,13 @@ public class UserController {
         user.setPhone(phone);
         service.updUser(user);
     }
-
+    //根据ID修改用户状态
     @GetMapping("/updState")
     public void updState(Integer uid,String state){
         service.updUserState(uid,state);
     }
 
-
+    //使用搜索引擎查询用户信息
     @GetMapping("/selectUser")
     public PageVO<List<UserDoc>> selectUser(String param, Integer page, Integer limit){
         String[] fields = {"name", "account", "email", "phone"};

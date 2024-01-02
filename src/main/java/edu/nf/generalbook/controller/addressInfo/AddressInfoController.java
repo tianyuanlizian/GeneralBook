@@ -23,19 +23,23 @@ import java.util.List;
 @RestController
 @Slf4j
 public class AddressInfoController {
+    //地址的service
     private AddressInfoService service;
 
+    //注入
     @Autowired
     public void setService(AddressInfoService service) {
         this.service = service;
     }
 
+    //查询全部的地址信息
     @GetMapping("/listAddressInfo")
     public PageVO<List<AddressInfo>> listAddressInfo(Integer page, Integer limit){
         PageVO<List<AddressInfo>> vo = service.listAddressInfo(page, limit);
         return vo;
     }
 
+    //添加地址
     @PostMapping("/addAddressInfo")
     public void addAddressInfo(String aName, String address, String phone, Integer uid){
         AddressInfo addressInfo = new AddressInfo();
@@ -45,6 +49,8 @@ public class AddressInfoController {
         addressInfo.setUId(uid);
         service.addAddressInfo(addressInfo);
     }
+
+    //根据ID修改地址
     @PostMapping("/updAddressInfo")
     public void updAddressInfo(Integer aid,String aName, String address, String phone, Integer uid){
         AddressInfo addressInfo = new AddressInfo();
@@ -56,6 +62,7 @@ public class AddressInfoController {
         service.updAddressInfo(addressInfo);
     }
 
+    //根据ID删除地址
     @PostMapping("/delAddressInfo")
     public void delAddressInfo(Integer aid){
         service.delAddressInfo(aid);

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @Slf4j
 public class MinioController {
+    //Minio
     @Autowired
     private MinioService service;
 
@@ -44,6 +45,8 @@ public class MinioController {
 //        }
 //    }
 
+
+    //使用Minio上传图片
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         String fileUrl = service.uploadFile(file);

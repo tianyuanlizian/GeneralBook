@@ -12,16 +12,17 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class MinioConfig {
-
+    //地址
     @Value("${minio.host}")
     private String minioHost;
-
+    //账号
     @Value("${minio.access-key}")
     private String accessKey;
-
+    //密码
     @Value("${minio.secret-key}")
     private String secretKey;
 
+    //配置Minio实例
     @Bean
     public MinioClient minioClient() {
         return MinioClient.builder()
