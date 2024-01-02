@@ -60,7 +60,7 @@ public class MinioServiceImpl implements MinioService {
     public String uploadFile(MultipartFile file) {
         try {
             // 生成唯一文件名
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
             // 使用MinioClient上传文件
             minioClient.putObject(
