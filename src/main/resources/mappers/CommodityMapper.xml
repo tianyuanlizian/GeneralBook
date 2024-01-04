@@ -41,5 +41,12 @@
         select c.b_id,c.b_name,c.author,c.press,c.notes,c.t_id,c.issuing_date,c.produce_date,c.picture,c.inventory,c.state,t.name
         from commodity c join types t on c.t_id = t.t_id
     </select>
+    <select id="listCommodityByType" resultMap="commodityMap">
+        select c.b_id,c.b_name,c.author,c.press,c.notes,c.t_id,c.issuing_date,c.produce_date,c.picture,c.inventory,c.state,t.name
+        from commodity c join types t on c.t_id = t.t_id where c.t_id = #{tid}
+    </select>
+    <select id="countByType">
+        select count(*) from commodity where t_id = #{tid}
+    </select>
 
 </mapper>

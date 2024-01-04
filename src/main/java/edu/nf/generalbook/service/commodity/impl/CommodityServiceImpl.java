@@ -45,4 +45,24 @@ public class CommodityServiceImpl implements CommodityService {
     public void updCommodityState(Integer bId, String state) {
         dao.updCommodityState(bId, state);
     }
+
+    @Override
+    public PageVO<List<Commodity>> commodityList() {
+        List<Commodity> list = dao.commodityList();
+        Long count = dao.count();
+        PageVO vo = new PageVO();
+        vo.setData(list);
+        vo.setCount(count);
+        return vo;
+    }
+
+    @Override
+    public PageVO<List<Commodity>> listCommodityByType(Integer tid) {
+        List<Commodity> list = dao.listCommodityByType(tid);
+        Long count = dao.countByType(tid);
+        PageVO vo = new PageVO();
+        vo.setData(list);
+        vo.setCount(count);
+        return vo;
+    }
 }

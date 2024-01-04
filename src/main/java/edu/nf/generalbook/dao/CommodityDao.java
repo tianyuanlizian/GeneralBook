@@ -1,6 +1,7 @@
 package edu.nf.generalbook.dao;
 
 import edu.nf.generalbook.entity.Commodity;
+import edu.nf.generalbook.vo.PageVO;
 
 import java.util.List;
 
@@ -47,4 +48,8 @@ public interface CommodityDao {
      * @return
      */
     List<Commodity> commodityList();
+
+    List<Commodity> listCommodityByType(Integer tid);
+
+    Long countByType(Integer tid);
 }

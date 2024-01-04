@@ -37,4 +37,8 @@ public interface CommodityService {
      */
     void updCommodityState(Integer bId, String state);
 
+    PageVO<List<Commodity>> commodityList();
+
+    PageVO<List<Commodity>> listCommodityByType(Integer tid);
+
 }

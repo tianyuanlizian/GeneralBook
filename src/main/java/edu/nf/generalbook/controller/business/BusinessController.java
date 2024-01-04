@@ -1,6 +1,7 @@
 package edu.nf.generalbook.controller.business;
 
 import edu.nf.generalbook.entity.Business;
+import edu.nf.generalbook.entity.ImgTest;
 import edu.nf.generalbook.service.business.BusinessService;
 import edu.nf.generalbook.service.es.EsService;
 import edu.nf.generalbook.service.notice.NoticeService;
@@ -70,5 +71,16 @@ public class BusinessController {
         service.delBusiness(buId);
     }
 
-
+    @PostMapping ("/imgTest")
+    public ImgTest imgTest(){
+        ImgTest imgTest = new ImgTest();
+        PageVO<List<Business>> vo = service.listBusiness(1, 5);
+        List<Business> list = vo.getData();
+        list.forEach(business -> {
+            imgTest.setId(business.getBuId());
+            imgTest.setImgPath(business.getPicture());
+            imgTest.setDescribes("测试");
+        });
+        return imgTest;
+    }
 }

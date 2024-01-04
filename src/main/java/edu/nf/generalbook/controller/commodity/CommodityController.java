@@ -82,4 +82,16 @@ public class CommodityController {
     public void updCommodityState(Integer bId,String state){
         service.updCommodityState(bId,state);
     }
+
+    @GetMapping("/commodityList")
+    public PageVO<List<Commodity>> commodityList(){
+        PageVO<List<Commodity>> vo = service.commodityList();
+        return vo;
+    }
+
+    @GetMapping("/listCommodityByType")
+    public PageVO<List<Commodity>> listCommodityByType(Integer tid){
+        PageVO<List<Commodity>> vo = service.listCommodityByType(tid);
+        return vo;
+    }
 }
