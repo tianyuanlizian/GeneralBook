@@ -69,4 +69,6 @@ public class BusinessController {
     public void delBusiness(Integer buId){
         service.delBusiness(buId);
     }
+
+
 }
