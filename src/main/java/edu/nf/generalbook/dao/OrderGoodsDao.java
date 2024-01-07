@@ -40,4 +40,6 @@ public interface OrderGoodsDao {
      * @return
      */
     List<OrderGoods> orderGoodsList();
+
+    List<OrderGoods> orderGoodsListByUid(Integer uid);
 }

@@ -30,4 +30,6 @@ public interface OrderGoodsService {
      */
     void delOrderGoods(Integer id);
 
+    PageVO<List<OrderGoods>> orderGoodsListByUid(Integer uid);
+
 }

@@ -65,4 +65,10 @@ public class CommodityServiceImpl implements CommodityService {
         vo.setCount(count);
         return vo;
     }
+
+    @Override
+    public Commodity listCommodityById(Integer bid) {
+        Commodity commodity = dao.listCommodityById(bid);
+        return commodity;
+    }
 }

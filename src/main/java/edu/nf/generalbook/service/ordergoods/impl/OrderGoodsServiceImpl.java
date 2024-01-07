@@ -40,4 +40,13 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         dao.delOrderGoods(id);
     }
 
+    @Override
+    public PageVO<List<OrderGoods>> orderGoodsListByUid(Integer uid) {
+        List<OrderGoods> list = dao.orderGoodsListByUid(uid);
+        PageVO vo = new PageVO();
+        vo.setData(list);
+        vo.setCount(list.stream().count());
+        return vo;
+    }
+
 }

@@ -48,5 +48,9 @@
     <select id="countByType">
         select count(*) from commodity where t_id = #{tid}
     </select>
+    <select id="listCommodityById" resultMap="commodityMap">
+        select c.b_id,c.b_name,c.author,c.press,c.notes,c.t_id,c.issuing_date,c.produce_date,c.picture,c.inventory,c.state,t.name
+        from commodity c join types t on c.t_id = t.t_id where c.b_id = #{bid}
+    </select>
 
 </mapper>

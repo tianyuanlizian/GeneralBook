@@ -94,4 +94,10 @@ public class CommodityController {
         PageVO<List<Commodity>> vo = service.listCommodityByType(tid);
         return vo;
     }
+
+    @GetMapping("/listCommodityById")
+    public Commodity listCommodityById(Integer bid){
+        Commodity commodity = service.listCommodityById(bid);
+        return commodity;
+    }
 }

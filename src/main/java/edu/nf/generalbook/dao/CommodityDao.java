@@ -52,4 +52,6 @@ public interface CommodityDao {
     List<Commodity> listCommodityByType(Integer tid);
 
     Long countByType(Integer tid);
+
+    Commodity listCommodityById(Integer bid);
 }

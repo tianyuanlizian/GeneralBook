@@ -67,4 +67,10 @@ public class OrderGoodsController {
     public void delOrderGoods(Integer oid){
         service.delOrderGoods(oid);
     }
+
+    @GetMapping("/orderGoodsListByUid")
+    public PageVO<List<OrderGoods>> orderGoodsListByUid(Integer uid){
+        PageVO<List<OrderGoods>> vo = service.orderGoodsListByUid(uid);
+        return vo;
+    }
 }

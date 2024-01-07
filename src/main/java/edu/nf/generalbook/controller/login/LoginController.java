@@ -8,7 +8,10 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @Author: tianyuan
@@ -29,6 +32,14 @@ public class LoginController {
     @PostMapping("/login")
     public PageVO<User> login(HttpSession session, String account, String password){
         PageVO<User> user = service.login(session,account, password);
+        return user;
+    }
+    @PostMapping("/appLogin")
+    public PageVO<User> appLogin(HttpSession session, @RequestBody Map<String, String> loginData) {
+        String account = loginData.get("account");
+        String password = loginData.get("password");
+
+        PageVO<User> user = service.login(session, account, password);
         return user;
     }
 }

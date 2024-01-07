@@ -41,4 +41,6 @@ public interface CommodityService {
 
     PageVO<List<Commodity>> listCommodityByType(Integer tid);
 
+    Commodity listCommodityById(Integer bid);
+
 }
