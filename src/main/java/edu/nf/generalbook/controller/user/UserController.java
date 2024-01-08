@@ -37,14 +37,14 @@ public class UserController {
     }
     //注册新用户
     @PostMapping("/addUser")
-    public void addUser(String uname,String account, String password, String sex, String email, String image, String phone){
+    public void addUser(String uname,String account, String password, String sex, String email, String photo, String phone){
         User user = new User();
         user.setUName(uname);
         user.setAccount(account);
         user.setPassword(password);
         user.setSex(sex);
         user.setEmail(email);
-        user.setPhoto(image);
+        user.setPhoto(photo);
         user.setPhone(phone);
         user.setState("1");
         service.addUser(user);

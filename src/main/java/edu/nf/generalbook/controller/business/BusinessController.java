@@ -60,8 +60,7 @@ public class BusinessController {
         business.setBuName(buName);
         business.setAddress(address);
         business.setPhone(phone);
-        business.setEmail(email);
-        business.setPicture(picture);
+        business.setEmail(email);        business.setPicture(picture);
         business.setIntroduce(introduce);
         service.updBusiness(business);
     }
