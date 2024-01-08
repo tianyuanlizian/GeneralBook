@@ -35,4 +35,8 @@ public interface CollectDao {
      * @return
      */
     Long count();
+
+    List<Collect> listCollectByUId(Integer uid);
+
+    void delCollectById(Integer uid, Integer bid);
 }

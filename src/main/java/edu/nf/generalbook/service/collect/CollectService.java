@@ -2,6 +2,7 @@ package edu.nf.generalbook.service.collect;
 
 import edu.nf.generalbook.entity.AddressInfo;
 import edu.nf.generalbook.entity.Collect;
+import edu.nf.generalbook.entity.Commodity;
 import edu.nf.generalbook.vo.PageVO;
 
 import java.util.List;
@@ -30,4 +31,13 @@ public interface CollectService {
      * @param id
      */
     void delCollect(Integer id);
+
+    /**
+     * 根据用户ID查询收藏的商品信息
+     * @param uid
+     * @return
+     */
+    PageVO<List<Commodity>> listCollectByUId(Integer uid);
+
+    void delCollectById(Integer uid, Integer bid);
 }
