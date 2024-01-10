@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="edu.nf.generalbook.dao.ShoppingCartDao">
+<mapper namespace="edu.nf.generalBook.dao.ShoppingCartDao">
     <resultMap id="ShoppingCartMap" type="edu.nf.generalBook.entity.ShoppingCart">
         <id property="scId" column="sc_id"/>
         <result property="uId" column="u_id"/>
