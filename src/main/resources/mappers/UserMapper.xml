@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.nf.generalbook.dao.UserDao">
-    <resultMap id="userMap" type="edu.nf.generalbook.entity.User">
+    <resultMap id="userMap" type="edu.nf.generalBook.entity.User">
         <id property="uId" column="u_id"/>
         <result property="uName" column="u_name"/>
         <result property="account" column="account"/>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.nf.generalbook.dao.CollectDao">
-    <resultMap id="collectMap" type="edu.nf.generalbook.entity.Collect">
+    <resultMap id="collectMap" type="edu.nf.generalBook.entity.Collect">
         <id property="coId" column="co_id"/>
         <result property="bId" column="b_id"/>
         <result property="createDate" column="create_date"/>
@@ -49,7 +49,7 @@
         select count(*) from collect
     </select>
     <select id="listCollectByUId" resultMap="collectMap">
-        select co.co_id,co.b_id,co.create_date,co.u_id,c.b_name,c.author,c.press,c.notes,c.issuing_date,c.produce_date,c.picture,u.u_name
+        select co.co_id,co.b_id,co.create_date,co.u_id,c.b_name,c.author,c.inventory,c.press,c.notes,c.issuing_date,c.produce_date,c.picture,u.u_name
         from collect co left join commodity c on co.b_id = c.b_id left join user u on co.u_id = u.u_id where u.u_id = #{uid}
     </select>
 

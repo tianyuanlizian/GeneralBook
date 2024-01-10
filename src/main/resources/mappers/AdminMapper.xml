@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.nf.generalbook.dao.AdminDao">
-    <resultMap id="adminMap" type="edu.nf.generalbook.entity.Admin">
+    <resultMap id="adminMap" type="edu.nf.generalBook.entity.Admin">
         <id property="adId" column="ad_id"/>
         <result property="adName" column="ad_name"/>
         <result property="account" column="account"/>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.generalbook.dao.ShoppingCartDao">
+    <resultMap id="ShoppingCartMap" type="edu.nf.generalBook.entity.ShoppingCart">
+        <id property="scId" column="sc_id"/>
+        <result property="uId" column="u_id"/>
+        <result property="bId" column="b_id"/>
+        <result property="num" column="num"/>
+        <association property="user">
+            <id property="uId" column="u_id"/>
+            <result property="uName" column="u_name"/>
+            <result property="account" column="account"/>
+            <result property="password" column="password"/>
+            <result property="sex" column="sex"/>
+            <result property="email" column="email"/>
+            <result property="photo" column="photo"/>
+            <result property="phone" column="phone"/>
+            <result property="state" column="state"/>
+        </association>
+        <association property="commodity">
+            <id property="bId" column="b_id"/>
+            <result property="bName" column="b_name"/>
+            <result property="author" column="author"/>
+            <result property="press" column="press"/>
+            <result property="notes" column="notes"/>
+            <result property="tId" column="t_id"/>
+            <result property="issuingDate" column="issuing_date"/>
+            <result property="produceDate" column="produce_date"/>
+            <result property="picture" column="picture"/>
+            <result property="inventory" column="inventory"/>
+            <result property="state" column="state"/>
+        </association>
+    </resultMap>
+    <insert id="addShoppingCart">
+        insert into shopping_cart(u_id,b_id,nun) values (#{uId},#{bId},#{num})
+    </insert>
+    <update id="updShoppingCart">
+        update shopping_cart set num = #{num} where u_id = #{uid} and b_id = #{bid}
+    </update>
+    <delete id="delShoppingCart">
+        delete from shopping_cart where u_id = #{uid} and b_id = #{bid}
+    </delete>
+    <select id="listShoppingCartById" resultMap="ShoppingCartMap">
+        select sc.sc_id,sc.u_id,sc.b_id,sc.num,c.b_name,c.author,c.inventory,c.press,c.notes,c.issuing_date,c.produce_date,c.picture,u.u_name,u.account
+        from shopping_cart sc left join commodity c on sc.b_id = c.b_id left join user u on sc.u_id = u.u_id where u.u_id = #{uid}
+    </select>
+
+</mapper>

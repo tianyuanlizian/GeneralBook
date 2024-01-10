@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.nf.generalbook.dao.OrderGoodsDao">
-    <resultMap id="orderGoodsMap" type="edu.nf.generalbook.entity.OrderGoods">
+    <resultMap id="orderGoodsMap" type="edu.nf.generalBook.entity.OrderGoods">
         <id property="oId" column="o_id"/>
         <result property="orderId" column="order_id"/>
         <result property="bId" column="b_id"/>
