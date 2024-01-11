@@ -33,7 +33,7 @@
         </association>
     </resultMap>
     <insert id="addShoppingCart">
-        insert into shopping_cart(u_id,b_id,nun) values (#{uId},#{bId},#{num})
+        insert into shopping_cart(u_id,b_id,num) values (#{uId},#{bId},#{num})
     </insert>
     <update id="updShoppingCart">
         update shopping_cart set num = #{num} where u_id = #{uid} and b_id = #{bid}
@@ -44,6 +44,10 @@
     <select id="listShoppingCartById" resultMap="ShoppingCartMap">
         select sc.sc_id,sc.u_id,sc.b_id,sc.num,c.b_name,c.author,c.inventory,c.press,c.notes,c.issuing_date,c.produce_date,c.picture,u.u_name,u.account
         from shopping_cart sc left join commodity c on sc.b_id = c.b_id left join user u on sc.u_id = u.u_id where u.u_id = #{uid}
+    </select>
+    <select id="getShoppingCartById" resultMap="ShoppingCartMap">
+        select sc.sc_id,sc.u_id,sc.b_id,sc.num,c.b_name,c.author,c.inventory,c.press,c.notes,c.issuing_date,c.produce_date,c.picture,u.u_name,u.account
+        from shopping_cart sc left join commodity c on sc.b_id = c.b_id left join user u on sc.u_id = u.u_id where u.u_id = #{uid} and sc.b_id = #{bid}
     </select>
 
 </mapper>

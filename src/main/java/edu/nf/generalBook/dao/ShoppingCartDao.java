@@ -21,4 +21,6 @@ public interface ShoppingCartDao {
     void delShoppingCart(Integer uid, Integer bid);
     //修改购物车中商品的数量
     void updShoppingCart(Integer uid, Integer bid, Integer num);
+
+    ShoppingCart getShoppingCartById(Integer uid, Integer bid);
 }

@@ -22,8 +22,23 @@ import java.util.List;
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartDao dao;
     @Override
-    public void addShoppingCart(ShoppingCart shoppingCart) {
-        dao.addShoppingCart(shoppingCart);
+    public PageVO addShoppingCart(Integer uid, Integer bid) {
+        PageVO vo = new PageVO();
+        ShoppingCart cart = dao.getShoppingCartById(uid, bid);
+        if (cart != null){
+            Integer num = cart.getNum()+1;
+            dao.updShoppingCart(uid,bid,num);
+            vo.setCode(201);
+        }else{
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.setUId(uid);
+            shoppingCart.setBId(bid);
+            shoppingCart.setNum(1);
+            dao.addShoppingCart(shoppingCart);
+            vo.setCode(200);
+            vo.setData(dao.getShoppingCartById(uid, bid));
+        }
+        return vo;
     }
 
     @Override
@@ -43,5 +58,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void updShoppingCart(Integer uid, Integer bid, Integer num) {
         dao.updShoppingCart(uid, bid, num);
+    }
+
+    @Override
+    public ShoppingCart getShoppingCartById(Integer uid, Integer bid) {
+        ShoppingCart shoppingCart = dao.getShoppingCartById(uid, bid);
+        return shoppingCart;
     }
 }

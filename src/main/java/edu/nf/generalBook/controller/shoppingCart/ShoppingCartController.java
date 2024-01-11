@@ -29,23 +29,41 @@ public class ShoppingCartController {
     }
     //添加到购物车一件商品
     @PostMapping("/addShoppingCart")
-    private void addShoppingCart(@RequestBody Map<String,Integer> shoppingCart){
-        service.addShoppingCart();
+    private PageVO addShoppingCart(@RequestBody Map<String,Integer> shoppingCarts){
+        Integer uid = shoppingCarts.get("uid");
+        Integer bid = shoppingCarts.get("bid");
+
+        PageVO vo = service.addShoppingCart(uid, bid);
+        return vo;
     }
     //根据用户Id查询购物车
     @GetMapping("/listShoppingCartById")
     private PageVO<List<ShoppingCart>> listShoppingCartById(Integer uid, Integer pageNum, Integer pageSize){
-
+        PageVO<List<ShoppingCart>> vo = service.listShoppingCartById(uid, pageNum, pageSize);
+        return vo;
     }
 
     //删除购物车里的商品
     @PostMapping("/delShoppingCart")
-    private void delShoppingCart(Integer uid, Integer bid){
-
+    private PageVO delShoppingCart(@RequestBody Map<String,Integer> shoppingCarts){
+        Integer uid = shoppingCarts.get("uid");
+        Integer bid = shoppingCarts.get("bid");
+        service.delShoppingCart(uid, bid);
+        PageVO vo = new PageVO();
+        vo.setCode(200);
+        vo.setMessage("删除成功");
+        return vo;
     }
     //修改购物车中商品的数量
     @PostMapping("/updShoppingCart")
-    private void updShoppingCart(Integer uid, Integer bid, Integer num){
-
+    private PageVO updShoppingCart(@RequestBody Map<String,Integer> shoppingCarts){
+        Integer uid = shoppingCarts.get("uid");
+        Integer bid = shoppingCarts.get("bid");
+        Integer num = shoppingCarts.get("num");
+        service.updShoppingCart(uid, bid, num);
+        PageVO vo = new PageVO();
+        vo.setCode(200);
+        vo.setMessage("更新成功");
+        return vo;
     }
 }

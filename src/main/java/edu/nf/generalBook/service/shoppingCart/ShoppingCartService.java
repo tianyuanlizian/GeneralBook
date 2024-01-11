@@ -11,7 +11,7 @@ import java.util.List;
  **/
 public interface ShoppingCartService {
     //添加到购物车一件商品
-    void addShoppingCart(ShoppingCart shoppingCart);
+    PageVO addShoppingCart(Integer uid, Integer bid);
 
     //根据用户Id查询购物车
     PageVO<List<ShoppingCart>> listShoppingCartById(Integer uid, Integer pageNum, Integer pageSize);
@@ -20,4 +20,5 @@ public interface ShoppingCartService {
     void delShoppingCart(Integer uid, Integer bid);
     //修改购物车中商品的数量
     void updShoppingCart(Integer uid, Integer bid, Integer num);
+    ShoppingCart getShoppingCartById(Integer uid, Integer bid);
 }
